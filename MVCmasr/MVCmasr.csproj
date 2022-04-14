@@ -20,8 +20,4 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.15" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>
