@@ -17,6 +17,7 @@ namespace MVCmasr.Models
         public DateTime DateOfBirth { get; set; }
         
         public virtual ICollection<Role> Role { get; set; } = new HashSet<Role>();
+        public virtual ICollection<Album> Album { get; set; } = new HashSet<Album>();
         public virtual ICollection<SongArtist> SongArtist { get; set; } = new HashSet<SongArtist>();
 
     }
