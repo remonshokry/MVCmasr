@@ -2,7 +2,7 @@
 
 namespace MVCmasr.Repository
 {
-    public interface IGeneral<T>
+    public interface IGeneralRepository<T>
     {
         public List<T> GetAll(); 
         public T GetById(int _id); 
