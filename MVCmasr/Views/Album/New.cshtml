@@ -40,17 +40,17 @@
             </div>
             
             <div class="form-group">
-                <label asp-for="@Model.Album.AlbumGenre" class="control-label"></label>
+                <label asp-for="Genre" class="control-label"></label>
                 @*@foreach (var genre in @ViewBag.Genre)
                {
                    
                 <input type="checkbox" asp-for="@Model.Album.AlbumGenre" class="form-control" />
                }*@
                @*<select asp-for="@Model.Album.AlbumGenre.FirstOrDefault(a => a.AlbumId == Model.Id).GenreId"  class="form-control" asp-items="genreList">*@
-               <select asp-for="@Model.Album.AlbumGenre" class="form-control" asp-items="genreList" onchange="AddGenre()">
+               <select asp-for="Genre" class="form-control" asp-items="genreList" onchange="AddGenre()">
                     <option>Select Genre</option>   
                 </select>
-                <span asp-validation-for="@Model.Album.AlbumGenre" class="text-danger"></span>
+                <span asp-validation-for="Genre" class="text-danger"></span>
 
                 <input type="text"/>
 
@@ -75,11 +75,11 @@
     <script>
         function AddGenre()
         {
-            const selected = document.querySelectorAll('#@Model.Album.AlbumGenre option:checked');
+            const selected = document.querySelectorAll('#Genre option:checked');
             const values = Array.from(selected).map(el => el.value);
 
             console.log(values);
-            
+        }
            //foreach (var value in values)
            //{
            //    new @Model.Album.AlbumGenre {}
