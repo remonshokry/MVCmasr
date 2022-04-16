@@ -1,0 +1,122 @@
+﻿@model MVCmasr.ViewModels.AlbumGenreViewModel
+
+@{
+    ViewData["Title"] = "New";
+    SelectList genreList = new SelectList(ViewBag.Genres,"Id","Name");
+}
+
+<h1>New</h1>
+
+<h4>Album</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SaveNew">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Album.Title" class="control-label"></label>
+                <input asp-for="@Model.Album.Title" class="form-control" />
+                <span asp-validation-for="@Model.Album.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Album.ReleaseDate" class="control-label"></label>
+                <input asp-for="@Model.Album.ReleaseDate" class="form-control" />
+                <span asp-validation-for="@Model.Album.ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Album.SongsNumber" class="control-label"></label>
+                <input asp-for="@Model.Album.SongsNumber" class="form-control" />
+                <span asp-validation-for="@Model.Album.SongsNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Album.Price" class="control-label"></label>
+                <input asp-for="@Model.Album.Price" class="form-control" />
+                <span asp-validation-for="@Model.Album.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Album.CountInStock" class="control-label"></label>
+                <input asp-for="@Model.Album.CountInStock" class="form-control" />
+                <span asp-validation-for="@Model.Album.CountInStock" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="@Model.Album.AlbumGenre" class="control-label"></label>
+                @*@foreach (var genre in @ViewBag.Genre)
+               {
+                   
+                <input type="checkbox" asp-for="@Model.Album.AlbumGenre" class="form-control" />
+               }*@
+               @*<select asp-for="@Model.Album.AlbumGenre.FirstOrDefault(a => a.AlbumId == Model.Id).GenreId"  class="form-control" asp-items="genreList">*@
+               <select asp-for="@Model.Album.AlbumGenre" class="form-control" asp-items="genreList" onchange="AddGenre()">
+                    <option>Select Genre</option>   
+                </select>
+                <span asp-validation-for="@Model.Album.AlbumGenre" class="text-danger"></span>
+
+                <input type="text"/>
+
+            </div>
+            <div class="form-group">
+                <input type="button" value="Add Genre" class="btn btn-primary"/>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function AddGenre()
+        {
+            const selected = document.querySelectorAll('#@Model.Album.AlbumGenre option:checked');
+            const values = Array.from(selected).map(el => el.value);
+
+            console.log(values);
+            
+           //foreach (var value in values)
+           //{
+           //    new @Model.Album.AlbumGenre {}
+           //}
+            //$.ajax({
+            //    url: "/Course/GetDepartmentCoursesPartialView", 
+            //    data: {"deptId": departmentId},
+            //    success: function(result)
+            //    {
+            //        $("#DepartmentCoursesPartial").html(result);
+            //    }
+            //});
+
+        //    function Save() {
+        //    debugger;
+        //    var listObj = [];
+        //    var idList = $('.id');
+        //    var productList = $('.ProductName');
+        //    var quantityList = $('.Quantity');
+        //    var priceList = $('.Price');
+        //    for (i = 0; i < $('.id').length; i++) {
+        //        var obj = { Id: $(idList[i]).val(), ProductName: $(productList[i]).val(), Quantity: quantityList[i].value, Price: $(priceList[i]).val(), };
+
+        //        listObj.push(obj);
+        //    }
+        //    $("#DetailsJson").val(JSON.stringify(listObj));
+
+        //}
+        //function AddRow() {
+        //    $.ajax({
+        //        url: "@Url.Action("Product", "Home")",
+        //    }).done(function (str) {
+        //        $("#Products").append(str);
+        //    });
+        //}
+        //}
+
+        //invoice.Details = JsonConvert.DeserializeObject<List<InvoiceDetails>>(invoice.DetailsJson)
+    </script>
+}

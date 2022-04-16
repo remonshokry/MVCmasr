@@ -31,7 +31,8 @@ namespace MVCmasr.Models
 
         public virtual ICollection<Song> Song { get; set; } = new HashSet<Song>();
         public virtual ICollection<Artist> Artist { get; set; } = new HashSet<Artist>();
-        public virtual ICollection<Genre> Genre { get; set; } = new HashSet<Genre>();
+        //public virtual ICollection<Genre> Genre { get; set; } = new HashSet<Genre>();
+        public virtual ICollection<AlbumGenre> AlbumGenre { get; set; } = new HashSet<AlbumGenre>();
         
 
 

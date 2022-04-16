@@ -4,14 +4,16 @@ using MVCmasr.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVCmasr.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220415210238_updateAlbumGebreV2")]
+    partial class updateAlbumGebreV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -503,14 +505,14 @@ namespace MVCmasr.Migrations
 
             modelBuilder.Entity("MVCmasr.Models.AlbumGenre", b =>
                 {
-                    b.HasOne("MVCmasr.Models.Genre", "Genre")
+                    b.HasOne("MVCmasr.Models.Album", "Album")
                         .WithMany("AlbumGenre")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVCmasr.Models.Album", "Album")
-                        .WithMany("AlbumGenre")
+                    b.HasOne("MVCmasr.Models.Genre", "Genre")
+                        .WithMany()
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -655,11 +657,6 @@ namespace MVCmasr.Migrations
             modelBuilder.Entity("MVCmasr.Models.Artist", b =>
                 {
                     b.Navigation("SongArtist");
-                });
-
-            modelBuilder.Entity("MVCmasr.Models.Genre", b =>
-                {
-                    b.Navigation("AlbumGenre");
                 });
 
             modelBuilder.Entity("MVCmasr.Models.Order", b =>

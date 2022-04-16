@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCmasr.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220414212741_First")]
-    partial class First
+    [Migration("20220415204450_updateAlbumGenre")]
+    partial class updateAlbumGenre
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,19 +21,19 @@ namespace MVCmasr.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AlbumGenre", b =>
+            modelBuilder.Entity("AlbumArtist", b =>
                 {
                     b.Property<int>("AlbumId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GenreId")
+                    b.Property<int>("ArtistId")
                         .HasColumnType("int");
 
-                    b.HasKey("AlbumId", "GenreId");
+                    b.HasKey("AlbumId", "ArtistId");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex("ArtistId");
 
-                    b.ToTable("AlbumGenre");
+                    b.ToTable("AlbumArtist");
                 });
 
             modelBuilder.Entity("ArtistRole", b =>
@@ -80,15 +80,27 @@ namespace MVCmasr.Migrations
                     b.ToTable("Albums");
                 });
 
+            modelBuilder.Entity("MVCmasr.Models.AlbumGenre", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AlbumId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("AlbumGenre");
+                });
+
             modelBuilder.Entity("MVCmasr.Models.Artist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AlbumId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -99,8 +111,6 @@ namespace MVCmasr.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AlbumId");
 
                     b.ToTable("Artists");
                 });
@@ -463,7 +473,7 @@ namespace MVCmasr.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("AlbumGenre", b =>
+            modelBuilder.Entity("AlbumArtist", b =>
                 {
                     b.HasOne("MVCmasr.Models.Album", null)
                         .WithMany()
@@ -471,9 +481,9 @@ namespace MVCmasr.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVCmasr.Models.Genre", null)
+                    b.HasOne("MVCmasr.Models.Artist", null)
                         .WithMany()
-                        .HasForeignKey("GenreId")
+                        .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -493,11 +503,23 @@ namespace MVCmasr.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MVCmasr.Models.Artist", b =>
+            modelBuilder.Entity("MVCmasr.Models.AlbumGenre", b =>
                 {
-                    b.HasOne("MVCmasr.Models.Album", null)
-                        .WithMany("Artist")
-                        .HasForeignKey("AlbumId");
+                    b.HasOne("MVCmasr.Models.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVCmasr.Models.Genre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("MVCmasr.Models.Order", b =>
@@ -627,8 +649,6 @@ namespace MVCmasr.Migrations
 
             modelBuilder.Entity("MVCmasr.Models.Album", b =>
                 {
-                    b.Navigation("Artist");
-
                     b.Navigation("Song");
                 });
 

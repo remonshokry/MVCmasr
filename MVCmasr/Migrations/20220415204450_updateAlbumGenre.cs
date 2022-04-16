@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MVCmasr.Migrations
 {
-    public partial class Initial : Migration
+    public partial class updateAlbumGenre : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,6 +22,20 @@ namespace MVCmasr.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Albums", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Artists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Artists", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,24 +107,27 @@ namespace MVCmasr.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Artists",
+                name: "AlbumArtist",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AlbumId = table.Column<int>(type: "int", nullable: true)
+                    AlbumId = table.Column<int>(type: "int", nullable: false),
+                    ArtistId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Artists", x => x.Id);
+                    table.PrimaryKey("PK_AlbumArtist", x => new { x.AlbumId, x.ArtistId });
                     table.ForeignKey(
-                        name: "FK_Artists_Albums_AlbumId",
+                        name: "FK_AlbumArtist_Albums_AlbumId",
                         column: x => x.AlbumId,
                         principalTable: "Albums",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AlbumArtist_Artists_ArtistId",
+                        column: x => x.ArtistId,
+                        principalTable: "Artists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,21 +263,21 @@ namespace MVCmasr.Migrations
                 name: "AlbumGenre",
                 columns: table => new
                 {
-                    AlbumsId = table.Column<int>(type: "int", nullable: false),
-                    GenresId = table.Column<int>(type: "int", nullable: false)
+                    AlbumId = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AlbumGenre", x => new { x.AlbumsId, x.GenresId });
+                    table.PrimaryKey("PK_AlbumGenre", x => new { x.AlbumId, x.GenreId });
                     table.ForeignKey(
-                        name: "FK_AlbumGenre_Albums_AlbumsId",
-                        column: x => x.AlbumsId,
+                        name: "FK_AlbumGenre_Albums_AlbumId",
+                        column: x => x.AlbumId,
                         principalTable: "Albums",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AlbumGenre_Genre_GenresId",
-                        column: x => x.GenresId,
+                        name: "FK_AlbumGenre_Genre_GenreId",
+                        column: x => x.GenreId,
                         principalTable: "Genre",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -299,21 +316,21 @@ namespace MVCmasr.Migrations
                 name: "ArtistRole",
                 columns: table => new
                 {
-                    ArtistsId = table.Column<int>(type: "int", nullable: false),
-                    RolesId = table.Column<int>(type: "int", nullable: false)
+                    ArtistId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ArtistRole", x => new { x.ArtistsId, x.RolesId });
+                    table.PrimaryKey("PK_ArtistRole", x => new { x.ArtistId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_ArtistRole_Artists_ArtistsId",
-                        column: x => x.ArtistsId,
+                        name: "FK_ArtistRole_Artists_ArtistId",
+                        column: x => x.ArtistId,
                         principalTable: "Artists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ArtistRole_Role_RolesId",
-                        column: x => x.RolesId,
+                        name: "FK_ArtistRole_Role_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -379,19 +396,19 @@ namespace MVCmasr.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AlbumGenre_GenresId",
+                name: "IX_AlbumArtist_ArtistId",
+                table: "AlbumArtist",
+                column: "ArtistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AlbumGenre_GenreId",
                 table: "AlbumGenre",
-                column: "GenresId");
+                column: "GenreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ArtistRole_RolesId",
+                name: "IX_ArtistRole_RoleId",
                 table: "ArtistRole",
-                column: "RolesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Artists_AlbumId",
-                table: "Artists",
-                column: "AlbumId");
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -470,6 +487,9 @@ namespace MVCmasr.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AlbumArtist");
+
             migrationBuilder.DropTable(
                 name: "AlbumGenre");
 

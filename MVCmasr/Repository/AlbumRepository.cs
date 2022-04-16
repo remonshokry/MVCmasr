@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MVCmasr.Repository
 {
-	public class AlbumRepository : IAlbumRepository<Album>
+	public class AlbumRepository : IAlbumRepository
 	{
 		private readonly ApplicationDbContext context;
 
@@ -57,41 +57,56 @@ namespace MVCmasr.Repository
 			return 0;
 		}
 
-		public int Insert(Album _obj, int[] _genres)
+		public int Insert(Album album, int[] _genres)
 		{
-			context.Albums.Add(_obj);
-			
-			foreach (var _genre in _genres)
+			context.Albums.Add(album);
+			foreach (var item in album.AlbumGenre)
 			{
-				var AlbumGenre = from genre in _obj.Genre
-								where genre.Id == _genre
-								select genre;
-
-				Genre g = AlbumGenre.FirstOrDefault(g => g.Id == _genre);
-				if (g != null)
-				{
-					g.Id = _genre;
-				}
+				context.AlbumGenres.Add(item);
 			}
-			return context.SaveChanges();
+			context.SaveChanges();
+			// ems7 elaraf da
+			//context.Albums.Add(_obj);
+
+			//foreach (var _genre in _genres)
+			//{
+			//	var AlbumGenre = from genre in _obj.Genre
+			//					where genre.Id == _genre
+			//					select genre;
+
+			//	Genre g = AlbumGenre.FirstOrDefault(g => g.Id == _genre);
+			//	if (g != null)
+			//	{
+			//		g.Id = _genre;
+			//	}
+			//}
+			//return context.SaveChanges();
+			return 0;
 		}
-		public int Update(int id, Album _obj, int[] _genres = null)
+		public int Update(int id, Album album, int[] _genres = null)
 		{
-			context.Albums.Add(_obj);
-
-			foreach (var _genre in _genres)
+			context.Albums.Add(album);
+			foreach (var item in album.AlbumGenre)
 			{
-				var AlbumGenre = from genre in _obj.Genre
-								 where genre.Id == _genre
-								 select genre;
-
-				Genre g = AlbumGenre.FirstOrDefault(g => g.Id == _genre);
-				if (g != null)
-				{
-					g.Id = _genre;
-				}
+				context.AlbumGenres.Add(item);
 			}
-			return context.SaveChanges();
+			context.SaveChanges();
+			//context.Albums.Add(_obj);
+
+			//foreach (var _genre in _genres)
+			//{
+			//	var AlbumGenre = from genre in _obj.Genre
+			//					 where genre.Id == _genre
+			//					 select genre;
+
+			//	Genre g = AlbumGenre.FirstOrDefault(g => g.Id == _genre);
+			//	if (g != null)
+			//	{
+			//		g.Id = _genre;
+			//	}
+			//}
+			//return context.SaveChanges();
+			return 0;
 		}
 	}
 }

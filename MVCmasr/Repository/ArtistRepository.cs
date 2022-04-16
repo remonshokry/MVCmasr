@@ -5,11 +5,11 @@ using MVCmasr.Models;
 
 namespace MVCmasr.Repository
 {
-    public class ArtistRpository : IArtistRepository
+    public class ArtistRepository : IArtistRepository
     {
         public ApplicationDbContext context;
 
-        public ArtistRpository(ApplicationDbContext _context)
+        public ArtistRepository(ApplicationDbContext _context)
         {
             context = _context;
         }

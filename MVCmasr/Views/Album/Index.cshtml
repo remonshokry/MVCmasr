@@ -1,0 +1,54 @@
+﻿@model List<Album>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        
+    
+<div>
+    <h4>Album</h4>
+    <hr />
+    <dl class="row">
+           
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(album => album[i].Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(album => album[i].Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(album => album[i].ReleaseDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(album => album[i].ReleaseDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(album => album[i].SongsNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(album => album[i].SongsNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(album => album[i].Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(album => album[i].Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(album => album[i].CountInStock)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(album => album[i].CountInStock)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+       }
