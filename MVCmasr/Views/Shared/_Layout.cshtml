@@ -4,48 +4,145 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MVCmasr</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" href="~/favicon.ico">
+
+    <link rel="stylesheet" href="~/Layout/style.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVCmasr</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Album" asp-action="Index">Albums</a>
-                        </li>
-                    </ul>
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+        <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="oneMusic-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="oneMusicNav">
+
+                        <!-- Nav brand -->
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Layout/img/core-img/logo.png" alt=""></a>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- Close Button -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                    <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
+                                    <li><a href="#">Pages</a>
+                                        <ul class="dropdown">
+                                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                            <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
+                                            
+                                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Login</a></li>
+                                            <li><a href="#">Dropdown</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <!-- Login/Register & Cart Button -->
+                                <div class="login-register-cart-button d-flex align-items-center">
+                                    <!-- Login/Register -->
+                                    <div class="login-register-btn mr-50">
+                                        <a asp-area="" asp-controller="Home" asp-action="Index" id="loginBtn">Login / Register</a>
+                                    </div>
+
+                                    <!-- Cart Button -->
+                                    <div class="cart-btn">
+                                        <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nav End -->
+
+                        </div>
+                    </nav>
                 </div>
             </div>
-        </nav>
+        </div>
     </header>
-    <div class="container">
+    <!-- ##### Header Area End ##### -->
+
+    <div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+        <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
         <div class="container">
-            &copy; 2022 - MVCmasr - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row d-flex flex-wrap align-items-center">
+                <div class="col-12 col-md-6">
+                    <a href="#"><img src="~/Layout/img/core-img/logo.png" alt=""></a>
+                    <p class="copywrite-text"><a href="#">
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This Website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a asp-area="" asp-controller="Home" asp-action="Index" target="_blank">MVCmasr</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="footer-nav">
+                        <ul>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>*@
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="~/Layout/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="~/Layout/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/Layout/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="~/Layout/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="~/Layout/js/active.js"></script>
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
