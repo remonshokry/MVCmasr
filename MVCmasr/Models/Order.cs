@@ -9,6 +9,7 @@ namespace MVCmasr.Models
     {
         [Key]
         public int Id { get; set; }
+        [DataType("money")]
         public decimal TotalPrice { get; set; }
         public string ShippingAddress { get; set; }
         public string Phone { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MVCmasr.Migrations
 {
-    public partial class updateAlbumGenre : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -365,31 +365,24 @@ namespace MVCmasr.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SongArtists",
+                name: "ArtistSong",
                 columns: table => new
                 {
-                    SongId = table.Column<int>(type: "int", nullable: false),
-                    ArtistId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    ArtistsId = table.Column<int>(type: "int", nullable: false),
+                    SongsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SongArtists", x => new { x.ArtistId, x.SongId });
+                    table.PrimaryKey("PK_ArtistSong", x => new { x.ArtistsId, x.SongsId });
                     table.ForeignKey(
-                        name: "FK_SongArtists_Artists_ArtistId",
-                        column: x => x.ArtistId,
+                        name: "FK_ArtistSong_Artists_ArtistsId",
+                        column: x => x.ArtistsId,
                         principalTable: "Artists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SongArtists_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SongArtists_Songs_SongId",
-                        column: x => x.SongId,
+                        name: "FK_ArtistSong_Songs_SongsId",
+                        column: x => x.SongsId,
                         principalTable: "Songs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -409,6 +402,11 @@ namespace MVCmasr.Migrations
                 name: "IX_ArtistRole_RoleId",
                 table: "ArtistRole",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArtistSong_SongsId",
+                table: "ArtistSong",
+                column: "SongsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -465,16 +463,6 @@ namespace MVCmasr.Migrations
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SongArtists_RoleId",
-                table: "SongArtists",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SongArtists_SongId",
-                table: "SongArtists",
-                column: "SongId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Songs_AlbumId",
                 table: "Songs",
                 column: "AlbumId");
@@ -497,6 +485,9 @@ namespace MVCmasr.Migrations
                 name: "ArtistRole");
 
             migrationBuilder.DropTable(
+                name: "ArtistSong");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -515,7 +506,13 @@ namespace MVCmasr.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "SongArtists");
+                name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "Artists");
+
+            migrationBuilder.DropTable(
+                name: "Songs");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -524,22 +521,13 @@ namespace MVCmasr.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Artists");
-
-            migrationBuilder.DropTable(
-                name: "Role");
-
-            migrationBuilder.DropTable(
-                name: "Songs");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Albums");
 
             migrationBuilder.DropTable(
                 name: "Genre");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

@@ -12,7 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVCmasr.Context;
-using MVCmasr.Repository;
+using MVCmasr.Data.Repository;
+using MVCmasr.Data.UnitOfWork;
 
 namespace MVCmasr
 {
@@ -34,6 +35,15 @@ namespace MVCmasr
                 builder.UseSqlServer(Configuration.GetConnectionString("MVCmasr"));
             });
 
+            services.AddScoped<IAlbumRepository , AlbumRepository >();
+            services.AddScoped<IArtistRepository , ArtistRepository >();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IOrderItemRepository , OrderItemRepository>();
+            services.AddScoped<IOrderRepository , OrderRepository>();
+            services.AddScoped<IRolesRepository , RolesRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
             services.AddNotyf(config => { 
                 config.DurationInSeconds = 10; 
                 config.IsDismissable = true; 
@@ -45,8 +55,6 @@ namespace MVCmasr
             // add user and manager
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddScoped<IAlbumRepository, AlbumRepository>();
-            services.AddScoped<IArtistRepository, ArtistRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

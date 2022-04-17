@@ -22,10 +22,11 @@ namespace MVCmasr.Models
         public int GenreId { get; set; }
         public bool IsFeatured { get; set; }
 
-        public virtual Album Album { get; set; }
-        public virtual Genre Genre { get; set; }
+        public Album Album { get; set; }
+        public Genre Genre { get; set; }
 
-        public virtual ICollection<SongArtist> SongArtists { get; set;} = new HashSet<SongArtist>();    
+        public virtual ICollection<Artist> Artists { get; set; } = new HashSet<Artist>();
+
 
     }
 }

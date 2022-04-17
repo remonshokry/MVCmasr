@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCmasr.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220415220940_updateAlbumGebreV3")]
-    partial class updateAlbumGebreV3
+    [Migration("20220416231353_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,21 @@ namespace MVCmasr.Migrations
                     b.ToTable("AlbumArtist");
                 });
 
+            modelBuilder.Entity("AlbumGenre", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AlbumId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("AlbumGenre");
+                });
+
             modelBuilder.Entity("ArtistRole", b =>
                 {
                     b.Property<int>("ArtistId")
@@ -49,6 +64,21 @@ namespace MVCmasr.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("ArtistRole");
+                });
+
+            modelBuilder.Entity("ArtistSong", b =>
+                {
+                    b.Property<int>("ArtistsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SongsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistsId", "SongsId");
+
+                    b.HasIndex("SongsId");
+
+                    b.ToTable("ArtistSong");
                 });
 
             modelBuilder.Entity("MVCmasr.Models.Album", b =>
@@ -78,21 +108,6 @@ namespace MVCmasr.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Albums");
-                });
-
-            modelBuilder.Entity("MVCmasr.Models.AlbumGenre", b =>
-                {
-                    b.Property<int>("AlbumId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AlbumId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("AlbumGenres");
                 });
 
             modelBuilder.Entity("MVCmasr.Models.Artist", b =>
@@ -236,26 +251,6 @@ namespace MVCmasr.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("Songs");
-                });
-
-            modelBuilder.Entity("MVCmasr.Models.SongArtist", b =>
-                {
-                    b.Property<int>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SongId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArtistId", "SongId");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("SongId");
-
-                    b.ToTable("SongArtists");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -488,6 +483,21 @@ namespace MVCmasr.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AlbumGenre", b =>
+                {
+                    b.HasOne("MVCmasr.Models.Album", null)
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVCmasr.Models.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ArtistRole", b =>
                 {
                     b.HasOne("MVCmasr.Models.Artist", null)
@@ -503,23 +513,19 @@ namespace MVCmasr.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MVCmasr.Models.AlbumGenre", b =>
+            modelBuilder.Entity("ArtistSong", b =>
                 {
-                    b.HasOne("MVCmasr.Models.Genre", "Genre")
-                        .WithMany("AlbumGenre")
-                        .HasForeignKey("AlbumId")
+                    b.HasOne("MVCmasr.Models.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MVCmasr.Models.Album", "Album")
-                        .WithMany("AlbumGenre")
-                        .HasForeignKey("GenreId")
+                    b.HasOne("MVCmasr.Models.Song", null)
+                        .WithMany()
+                        .HasForeignKey("SongsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Album");
-
-                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("MVCmasr.Models.Order", b =>
@@ -567,33 +573,6 @@ namespace MVCmasr.Migrations
                     b.Navigation("Album");
 
                     b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("MVCmasr.Models.SongArtist", b =>
-                {
-                    b.HasOne("MVCmasr.Models.Artist", "Artist")
-                        .WithMany("SongArtist")
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MVCmasr.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MVCmasr.Models.Song", "Song")
-                        .WithMany("SongArtists")
-                        .HasForeignKey("SongId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Artist");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("Song");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -649,29 +628,12 @@ namespace MVCmasr.Migrations
 
             modelBuilder.Entity("MVCmasr.Models.Album", b =>
                 {
-                    b.Navigation("AlbumGenre");
-
                     b.Navigation("Song");
-                });
-
-            modelBuilder.Entity("MVCmasr.Models.Artist", b =>
-                {
-                    b.Navigation("SongArtist");
-                });
-
-            modelBuilder.Entity("MVCmasr.Models.Genre", b =>
-                {
-                    b.Navigation("AlbumGenre");
                 });
 
             modelBuilder.Entity("MVCmasr.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("MVCmasr.Models.Song", b =>
-                {
-                    b.Navigation("SongArtists");
                 });
 #pragma warning restore 612, 618
         }

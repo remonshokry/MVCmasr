@@ -1,18 +1,18 @@
 ﻿@model MVCmasr.ViewModels.AlbumGenreViewModel
 
 @{
-    ViewData["Title"] = "New";
-    //SelectList genreList = new SelectList(ViewBag.Genres,"Id","Name");
+    ViewData["Title"] = "Edit";
 }
 
-<h1>New</h1>
+<h1>Edit</h1>
 
 <h4>Album</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SaveNew">
+        <form asp-action="SaveEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Album.Id" />
             <div class="form-group">
                 <label asp-for="@Model.Album.Title" class="control-label"></label>
                 <input asp-for="@Model.Album.Title" class="form-control" />
@@ -38,18 +38,24 @@
                 <input asp-for="@Model.Album.CountInStock" class="form-control" />
                 <span asp-validation-for="@Model.Album.CountInStock" class="text-danger"></span>
             </div>
-            
-            <div class="form-group">
+             <div class="form-group">
 
                 <label asp-for="@Model.Album.Genres" class="control-label"></label>
                 <select asp-for="@Model.SelectedGenresIds" class="form-control" multiple >
                 @foreach (var genre in @Model.Genres)
                {
-                    <option value = "@genre.Id">@genre.Name</option>
-               }
+                   if(@Model.SelectedGenresIds.Contains(genre.Id))
+                   {
+                        <option selected value = "@genre.Id">@genre.Name</option>
+                    }
+                    else
+                    {
+                        <option value = "@genre.Id">@genre.Name</option>
+                            
+                    }
+                }
                 </select>
                 <span asp-validation-for="@Model.Album.Genres" class="text-danger"></span>
-
             </div>
             <div class="form-group">
 
@@ -57,15 +63,21 @@
                 <select asp-for="@Model.SelectedArtistsIds" class="form-control" multiple >
                 @foreach (var artist in @Model.Artists)
                {
-                    <option value = "@artist.Id">@artist.Name</option>
-               }
+                   if(@Model.SelectedArtistsIds.Contains(artist.Id))
+                   {
+                        <option selected value = "@artist.Id">@artist.Name</option>
+                    }
+                    else
+                    {
+                        <option value = "@artist.Id">@artist.Name</option>
+                            
+                    }
+                }
                 </select>
-                <span asp-validation-for="@Model.Album.Artists" class="text-danger"></span>
-
+                <span asp-validation-for="@Model.Album.Genres" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

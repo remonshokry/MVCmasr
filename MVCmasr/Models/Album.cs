@@ -23,16 +23,17 @@ namespace MVCmasr.Models
 
         [Required]
         [Range(0, 1000)]
+        [DataType("money")]
         public decimal Price { get; set; }
 
         [Range(0, 500)]
         public int CountInStock { get; set; }
         public bool IsAvailable => CountInStock == 0;
 
-        public virtual ICollection<Song> Song { get; set; } = new HashSet<Song>();
-        public virtual ICollection<Artist> Artist { get; set; } = new HashSet<Artist>();
-        //public virtual ICollection<Genre> Genre { get; set; } = new HashSet<Genre>();
-        public virtual ICollection<AlbumGenre> AlbumGenre { get; set; } = new HashSet<AlbumGenre>();
+        public virtual ICollection<Song> Songs { get; set; } = new HashSet<Song>();
+        public virtual ICollection<Artist> Artists { get; set; } = new HashSet<Artist>();
+        public virtual ICollection<Genre> Genres { get; set; } = new HashSet<Genre>();
+        //public virtual ICollection<AlbumGenre> AlbumGenre { get; set; } = new HashSet<AlbumGenre>();
         
 
 

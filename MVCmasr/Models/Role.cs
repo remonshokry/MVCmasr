@@ -12,7 +12,7 @@ namespace MVCmasr.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public virtual ICollection<Artist> Artist { get; set; } = new HashSet<Artist>();
+        public virtual ICollection<Artist> Artists { get; set; } = new HashSet<Artist>();
 
     }
 }
