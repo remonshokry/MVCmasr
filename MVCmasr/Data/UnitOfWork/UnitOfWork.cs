@@ -6,6 +6,7 @@ namespace MVCmasr.Data.UnitOfWork
     {
         public UnitOfWork(
             IAlbumRepository albumRepository,
+            ISongRepository songRepository,
             IArtistRepository artistRepository,
             IGenreRepository genreRepository,
             IOrderItemRepository orderItemRepository,
@@ -18,6 +19,7 @@ namespace MVCmasr.Data.UnitOfWork
             OrderItemRepository = orderItemRepository;
             OrderRepository = orderRepository;
             RolesRepository = rolesRepository;
+            SongRepository = songRepository;
 
         }
 
@@ -32,5 +34,8 @@ namespace MVCmasr.Data.UnitOfWork
         public IOrderRepository OrderRepository { get; }
 
         public IRolesRepository RolesRepository { get; }
+
+        public ISongRepository SongRepository { get; }
+
     }
 }

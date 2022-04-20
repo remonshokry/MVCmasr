@@ -1,10 +1,12 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MVCmasr.Data.UnitOfWork;
 using MVCmasr.Models;
 using MVCmasr.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace MVCmasr.Controllers
@@ -15,9 +17,13 @@ namespace MVCmasr.Controllers
 		INotyfService notyfService;
 
 		private readonly IUnitOfWork unitOfWork;
+        private readonly IWebHostEnvironment hostEnvironment;
 
-        public AlbumController(IUnitOfWork _unitOfWork, INotyfService _notyfService)
-		{
+        public AlbumController(IUnitOfWork _unitOfWork, 
+                                INotyfService _notyfService, 
+                                IWebHostEnvironment _hostEnvironment)
+        { 
+            hostEnvironment = _hostEnvironment;
             unitOfWork = _unitOfWork;
             notyfService = _notyfService;
 		}
@@ -54,6 +60,8 @@ namespace MVCmasr.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    InsertImage(albumGenreVM.Album);
+
                     var newAlbumGenres = unitOfWork.GenreRepository.GetAll()
                         .Where(g=> albumGenreVM.SelectedGenresIds
                         .Contains(g.Id)).ToList();
@@ -78,6 +86,10 @@ namespace MVCmasr.Controllers
                 notyfService.Error(ex.Message);
             }
             notyfService.Error("There is an Error in Album Data");
+            List<Genre> genres = unitOfWork.GenreRepository.GetAll();
+            List<Artist> artists = unitOfWork.ArtistRepository.GetAll();
+            albumGenreVM.Genres = genres;
+            albumGenreVM.Artists = artists;
             return View("New", albumGenreVM);
         }
         [HttpGet]
@@ -103,9 +115,16 @@ namespace MVCmasr.Controllers
         [HttpPost]
         public IActionResult SaveEdit(AlbumGenreViewModel albumGenreVM)
         {
-            //Album oldAlbum = unitOfWork.AlbumRepository.GetById(id);
             if (ModelState.IsValid)
             {
+            Album oldAlbum = unitOfWork.AlbumRepository.GetById(albumGenreVM.Album.Id);
+                if(albumGenreVM.Album.ImageFile is not null)
+                {
+                    DeleteImage(oldAlbum);
+                    InsertImage(albumGenreVM.Album);
+                    
+                }
+
                 var newAlbumGenres = unitOfWork.GenreRepository.GetAll()
                         .Where(g => albumGenreVM.SelectedGenresIds
                         .Contains(g.Id)).ToList();
@@ -125,12 +144,42 @@ namespace MVCmasr.Controllers
             return View("Edit", albumGenreVM);
         }
 
-        //public IActionResult Delete(int id)
-        //{
-        //	albumRepository.Delete(id);
-        //	notyfService.Success("Album Successfully Deleted");
-        //	return RedirectToAction("Index");
-        //}
+        public IActionResult Delete(int id)
+        {
+            DeleteImage(unitOfWork.AlbumRepository.GetById(id));
+            unitOfWork.AlbumRepository.Delete(id);
+            notyfService.Success("Album Successfully Deleted");
+            return RedirectToAction("Index");
+        }
 
+        public void InsertImage(Album album)
+        {
+            string imagesFolderPath = hostEnvironment.WebRootPath + @"\assets\img\albumCovers";
+            string newDirectory = $"{album.Title}-{DateTime.Now.Ticks}";
+            Directory.CreateDirectory(Path.Combine(imagesFolderPath, newDirectory));
+            string fileName = Path.Combine(imagesFolderPath, newDirectory, Path.GetFileName(album.ImageFile.FileName));
+            album.ImageFile.CopyTo(new FileStream(fileName, FileMode.Create));
+            album.Image = Path.Combine($@"/assets/img/albumCovers/{newDirectory}/{Path.GetFileName(album.ImageFile.FileName)}");
+        }
+
+        public void DeleteImage(Album album)
+        {
+            string wwwrootPath = hostEnvironment.WebRootPath;
+            string rootPath = wwwrootPath + @"\assets\img\albumCovers";
+            var array = album.Image.Split("/").SkipLast(1);
+            string albumPath = wwwrootPath + String.Join("/", array);
+            string imagePath = wwwrootPath + album.Image;
+            using (var stream = System.IO.File.Open(imagePath, FileMode.Open, FileAccess.Write))
+            {
+                stream.Close();
+                //stream.Dispose();
+                if (Directory.Exists(albumPath))
+                {
+                    Directory.Delete(albumPath, true);
+
+                }
+            }
+        }
     }
+
 }

@@ -35,6 +35,7 @@ namespace MVCmasr
                 builder.UseSqlServer(Configuration.GetConnectionString("MVCmasr"));
             });
 
+            services.AddScoped<ISongRepository , SongRepository >();
             services.AddScoped<IAlbumRepository , AlbumRepository >();
             services.AddScoped<IArtistRepository , ArtistRepository >();
             services.AddScoped<IGenreRepository, GenreRepository>();

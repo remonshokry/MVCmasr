@@ -25,7 +25,7 @@ namespace MVCmasr.Data.Repository
             return _context.Set<T>().Find(_id);
         }
 
-        public int Delete(int _id)
+        public virtual int Delete(int _id)
         {
             var entityToDelete = GetById(_id);
             if (entityToDelete is not null)

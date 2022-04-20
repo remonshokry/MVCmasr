@@ -89,6 +89,9 @@ namespace MVCmasr.Migrations
                     b.Property<int>("CountInStock")
                         .HasColumnType("int");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -228,6 +231,9 @@ namespace MVCmasr.Migrations
 
                     b.Property<int>("AlbumId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Audio")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");

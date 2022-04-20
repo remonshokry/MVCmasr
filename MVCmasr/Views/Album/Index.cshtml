@@ -42,19 +42,20 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(album => album[i].CountInStock)
         </dt>
-        <dd class = "col-sm-10">
+        <dt class = "col-sm-10">
             @Html.DisplayFor(album => album[i].CountInStock)
-        </dd>
+        </dt>
+        <dt class = "col-sm-10">
+            <img src = "@Html.DisplayFor(album => album[i].Image)"/>
+        </dt>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model[i].Id">Delete</a> |
     <a asp-action="Index">Back to List</a>
 </div>
        }
-
-
-
 
 
     <!-- ##### Breadcumb Area Start ##### -->
