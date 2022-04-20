@@ -103,8 +103,8 @@ namespace MVCmasr.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

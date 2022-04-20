@@ -16,7 +16,7 @@ namespace MVCmasr.Models
         [Required]
         [Display(Name = "Album Name")]
         [MinLength(2)]
-        [MaxLength(10)]
+        [MaxLength(int.MaxValue)]
         public string Title { get; set; }
         public DateTime ReleaseDate { get; set; }
 
