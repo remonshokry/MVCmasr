@@ -165,7 +165,7 @@ namespace MVCmasr.Controllers
             string songsFolderPath = _webHostEnvironment.WebRootPath + @"\assets\audios\song";
             string newDirectory = $"{song.AlbumId}";
             Directory.CreateDirectory(Path.Combine(songsFolderPath, newDirectory));
-            var songName = String.Concat(Path.GetFileName(song.AudioFile.FileName).Where(s => !(Char.IsWhiteSpace(s))));
+            var songName = String.Concat(Path.GetFileName(song.AudioFile.FileName).Where(c => !(Char.IsWhiteSpace(c))));
             string fileName = Path.Combine(songsFolderPath, newDirectory, songName);
             song.AudioFile.CopyTo(new FileStream(fileName, FileMode.Create));
             song.Audio = Path.Combine($@"/assets/audios/song/{newDirectory}/{songName}");
