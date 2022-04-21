@@ -1,0 +1,60 @@
+﻿@model IEnumerable<MVCmasr.Models.Album>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SongsNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountInStock)
+            </th>
+            <th>
+                 <a asp-action="New">Create New</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <th>
+                <img src="@item.Image" style="width:50px;"/>
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SongsNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountInStock)
+            </td>
+            <td>
+                <a asp-controller="Album" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-controller="Album" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-controller="Album" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<a href="https://www.google.com">Google</a>

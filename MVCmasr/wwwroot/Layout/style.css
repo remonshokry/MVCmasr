@@ -352,12 +352,12 @@ img {
 
 /* :: 4.0 Header Area CSS */
 .header-area {
-  position: absolute;
-  z-index: 1000;
+
   width: 100%;
   top: 20px;
   left: 0;
-  z-index: 1000; }
+  }
+
   .header-area .oneMusic-main-menu {
     position: relative;
     width: 100%;
@@ -367,9 +367,9 @@ img {
       .header-area .oneMusic-main-menu {
         height: 70px; } }
     .header-area .oneMusic-main-menu .classy-nav-container {
-      background-color: transparent; }
+      background-color: red; }
     .header-area .oneMusic-main-menu .classy-navbar {
-      background-color: transparent;
+      background-color: red;
       height: 85px;
       padding: 0; }
       @media only screen and (max-width: 767px) {

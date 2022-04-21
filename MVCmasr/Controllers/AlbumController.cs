@@ -180,6 +180,13 @@ namespace MVCmasr.Controllers
                 }
             //}
         }
+
+        [HttpGet]
+        public IActionResult AlbumsDetails()
+        {
+            List<Album> albums = unitOfWork.AlbumRepository.GetAll();
+            return View(albums);
+        }
     }
 
 }
