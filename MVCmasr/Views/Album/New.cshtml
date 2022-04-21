@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="@Model.Album.Title" class="control-label"></label>
-                <input asp-for="@Model.Album.Title" class="form-control" />
+                <input asp-for="@Model.Album.Title" class="form-control" id="album-title" />
                 <span asp-validation-for="@Model.Album.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,7 +40,13 @@
             </div>
             <div class = "form-group">
             <label asp-for = "@Model.Album.ImageFile "></label>
-            <input asp-for = "@Model.Album.ImageFile" class = "form-control" accept = "image/*"/>
+            <input 
+                asp-for = "@Model.Album.ImageFile" 
+                class = "form-control" 
+                id="poster" 
+                accept = "image/*"
+                onchange=ShowImage(this)
+            />
             </div>
             <div class="form-group">
 
@@ -69,15 +75,33 @@
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary"/>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="col-md-4">
+        <div id="poster-container" class="d-none">
+            <img src="#" atl="Poster Image" id="poster-image" class="img-thumbnail" />
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        let posterElement = document.getElementById("poster");
+        let posterContainer = document.getElementById("poster-container");
+        let albumTitle = document.getElementById("album-title");
+        let posterImage = document.getElementById("poster-image");
+        
+        function ShowImage(poster)
+        {
+            let image = window.URL.createObjectURL(poster.files[0]);
+
+            posterContainer.classList.remove('d-none');
+            posterImage.setAttribute('src', image);
+        }
+    </script>
 }

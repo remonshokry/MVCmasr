@@ -104,12 +104,18 @@ namespace MVCmasr.Controllers
             var song = _unitOfWork.SongRepository.GetByIdWithAllData(id);
             SongVm.Song = song;
 
-            List<Artist> artists = _unitOfWork.ArtistRepository.GetAll();
-            SongVm.Artists = artists;
-
             var oldSongArtists = song.Artists;
-
             SongVm.SelectedArtistsIds = oldSongArtists.Select(a => a.Id).ToList();
+            SongVm.SelectedGenreId = song.GenreId;
+            SongVm.SelectedAlbumId = song.AlbumId;
+
+            List<Genre> genres = _unitOfWork.GenreRepository.GetAll();
+            List<Artist> artists = _unitOfWork.ArtistRepository.GetAll();
+            List<Album> albums = _unitOfWork.AlbumRepository.GetAll();
+
+            SongVm.Albums = albums;
+            SongVm.Genres = genres;
+            SongVm.Artists = artists;
 
             return View(SongVm);
         }
@@ -159,31 +165,20 @@ namespace MVCmasr.Controllers
         }
 
 
-
         public void InsertAudio(Song song)
         {
-            string songsFolderPath = _webHostEnvironment.WebRootPath + @"\assets\audios\song";
-            string newDirectory = $"{song.AlbumId}";
-            Directory.CreateDirectory(Path.Combine(songsFolderPath, newDirectory));
+            string songsFolderPath = @$"{_webHostEnvironment.WebRootPath}\assets\audios\song\";
             var songName = String.Concat(Path.GetFileName(song.AudioFile.FileName).Where(c => !(Char.IsWhiteSpace(c))));
-            string fileName = Path.Combine(songsFolderPath, newDirectory, songName);
+            string fileName = Path.Combine(songsFolderPath, songName);
             song.AudioFile.CopyTo(new FileStream(fileName, FileMode.Create));
-            song.Audio = Path.Combine($@"/assets/audios/song/{newDirectory}/{songName}");
+            song.Audio = Path.Combine($@"/assets/audios/song/{songName}");
         }
 
         public void DeleteAudio(Song song)
         {
-            string songsFolderPath = _webHostEnvironment.WebRootPath + @"\assets\audios\song";
-            var array = song.Audio.Split("/").SkipLast(1);
-            string albumPath = songsFolderPath + String.Join("/", array);
-            string songPath = songsFolderPath + song.Audio;
+            string songPath = $"{_webHostEnvironment.WebRootPath}{song.Audio}";
             System.IO.File.Delete(songPath);
-            //using (var stream = System.IO.File.Open(songPath , FileMode.Open, FileAccess.Write))
-            //{
-            //    stream.Close();
-            //    //stream.Dispose();
-            //    File()
-            //}
+
         }
 
     }
