@@ -6,8 +6,10 @@ using MVCmasr.ViewModels;
 
 namespace MVCmasr.Context
 {
-    public class ApplicationDbContext : IdentityDbContext< IdentityUser , IdentityRole  , string >
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole  , string >
     {
+
+        #region CTORs
         public ApplicationDbContext() : base()
         {
 
@@ -17,7 +19,9 @@ namespace MVCmasr.Context
         {
 
         }
+        #endregion
 
+        #region DBsets
         public DbSet<Album> Albums { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Artist> Artists { get; set; }
@@ -25,9 +29,15 @@ namespace MVCmasr.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Genre> Genre { get; set; }
+        #endregion
 
-        //public DbSet<MVCmasr.ViewModels.AlbumGenreViewModel> AlbumGenreViewModel { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
+            builder.Entity<ApplicationUser>().ToTable("Users");
+            builder.Entity<IdentityUserClaim<string>>().ToTable("UsersClaims");
+        }
     }
 }

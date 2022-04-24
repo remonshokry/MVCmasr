@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MVCmasr.Data.UnitOfWork;
@@ -11,6 +12,7 @@ using System.Linq;
 
 namespace MVCmasr.Controllers
 {
+    //[Authorize]
 	public class AlbumController : Controller
 	{
 		

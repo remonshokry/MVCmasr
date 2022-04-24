@@ -1,0 +1,77 @@
+﻿@using System.Security.Claims
+
+<div class="classynav">
+    <ul>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
+        <li><a href="#">Pages</a>
+            <ul class="dropdown">
+                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
+                                            
+                <li><a asp-area="" asp-controller="Home" asp-action="Index">Login</a></li>
+                <li><a href="#">Dropdown</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Even Dropdown</a></li>
+                        <li><a href="#">Even Dropdown</a></li>
+                        <li><a href="#">Even Dropdown</a></li>
+                        <li><a href="#">Even Dropdown</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Deeply Dropdown</a></li>
+                                <li><a href="#">Deeply Dropdown</a></li>
+                                <li><a href="#">Deeply Dropdown</a></li>
+                                <li><a href="#">Deeply Dropdown</a></li>
+                                <li><a href="#">Deeply Dropdown</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Even Dropdown</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- Login/Register & Cart Button -->
+    <div class="login-register-cart-button d-flex align-items-center">
+        <!-- Login/Register/Logout -->
+        <div class="login-register-btn mr-50 d-flex flex-gap">
+            @if(User.Identity.IsAuthenticated == false)
+            {
+                <div class="mr-2">
+                    <a asp-area="" asp-controller="Account" asp-action="Login" id="loginBtn">Login</a>
+                </div>
+                <div class="ml-2">
+                    <a asp-area="" asp-controller="Account" asp-action="Register" id="registerBtn">Register</a>
+                </div>
+            }
+            else
+            {
+                <div class="mr-2">
+                    <a 
+                        asp-area="" 
+                        asp-controller="User" 
+                        asp-action="index"
+                        asp-route-id = "@User.Claims.FirstOrDefault(c => c.Type == "Id").Value"
+                        id="userProfile">
+                        Welcome  @User.Claims.FirstOrDefault(c => c.Type == "Name").Value
+                    </a>
+                </div>
+                <div class="ml-2">
+                    <a asp-area="" asp-controller="Account" asp-action="Signout" id="logoutBtn">Logout</a>
+                </div>
+                @if(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value == "admin")
+                {
+                    <div class="ml-4">
+                        <a asp-area="" asp-controller="Account" asp-action="RegisterAdmin" id="registerAdminBtn">Add Admin</a>
+                    </div>
+                }
+            }
+
+        </div>
+
+        <!-- Cart Button -->
+        <div class="cart-btn">
+            <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
+        </div>
+    </div>
+</div>

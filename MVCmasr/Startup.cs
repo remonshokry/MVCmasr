@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +10,9 @@ using Microsoft.Extensions.Hosting;
 using MVCmasr.Context;
 using MVCmasr.Data.Repository;
 using MVCmasr.Data.UnitOfWork;
+using MVCmasr.Models;
+using System;
+using System.Security.Claims;
 
 namespace MVCmasr
 {
@@ -26,15 +25,21 @@ namespace MVCmasr
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        #region Services
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Default Services
             services.AddControllersWithViews();
+            #endregion
+
+            #region DataBase
             services.AddDbContext<ApplicationDbContext>(builder =>
             {
                 builder.UseSqlServer(Configuration.GetConnectionString("MVCmasr"));
             });
+            #endregion
 
+            #region Register Custom Services
             services.AddScoped<ISongRepository , SongRepository >();
             services.AddScoped<IAlbumRepository , AlbumRepository >();
             services.AddScoped<IArtistRepository , ArtistRepository >();
@@ -43,27 +48,49 @@ namespace MVCmasr
             services.AddScoped<IOrderRepository , OrderRepository>();
             services.AddScoped<IRolesRepository , RolesRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            #endregion
 
-
+            #region Notification
             services.AddNotyf(config => { 
                 config.DurationInSeconds = 10; 
                 config.IsDismissable = true; 
                 config.Position = NotyfPosition.TopRight; 
             });
+            #endregion
 
-            // Identity Service
-            //-----------------
-            // add user and manager
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            #region ASPIdentity
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
 
+                options.User.RequireUniqueEmail = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            #endregion
+
+            #region Authorization
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminsOnly", policy => policy
+                .RequireClaim(ClaimTypes.Role, "Admin"));
+            });
+            #endregion
         }
+        #endregion
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        #region Middlewares
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.UseStatusCodePagesWithRedirects("/Home/Error");
             }
             else
             {
@@ -72,6 +99,8 @@ namespace MVCmasr
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -84,5 +113,6 @@ namespace MVCmasr
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+        #endregion
     }
 }
