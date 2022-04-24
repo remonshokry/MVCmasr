@@ -2,53 +2,86 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "_AlbumDetails";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Album</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SongsNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SongsNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CountInStock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CountInStock)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+    <!-- ##### Blog Area Start ##### -->
+    <div class="blog-area section-padding-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-9">
+
+                    <!-- Single Post Start -->
+                    <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="100ms">
+                        <!-- Post Thumb -->
+                        <div class="blog-post-thumb mt-30">
+                            <a href="#"><img src="@Html.DisplayFor(model => model.Image)" alt=""></a>
+                            <!-- Post Date -->
+                            <div class="post-date">
+                                <span>Price</span>
+                                <span>@Html.DisplayFor(model => model.Price)</span>
+                            </div>
+                        </div>
+
+                        <!-- Blog Content -->
+                        <div class="blog-content">
+                            <!-- Post Title -->
+                            <a href="#" class="post-title">@Html.DisplayFor(model => model.Title)</a>
+                            <!-- Post Meta -->
+                            <div class="post-meta d-flex mb-30">
+                                <p class="post-author">By<a href="#"> @Html.DisplayFor(model => model.Artists.FirstOrDefault().Name)</a></p>
+                                <p class="tags">@Html.DisplayFor(model => model.SongsNumber) Songs</p>
+                                <p class="tags">Release Date: @Html.DisplayFor(model => model.ReleaseDate)</p>
+                            </div>
+                            <!-- Post Excerpt -->
+                             <!-- ##### Song Area Start ##### -->
+                            <div class="one-music-songs-area mb-70">
+                                <div class="container">
+                                    <div class="row">
+
+                                        @for (var i = 1; i <= @ViewBag.Songs.Count; i++)
+                                       {
+                                            <!-- Single Song Area -->
+                                            <div class="col-12">
+                                                <div class="single-song-area mb-30 d-flex flex-wrap align-items-end">
+                                                    <div class="song-thumbnail">
+                                                        <img src="@Html.DisplayFor(model => model.Image)" alt="">
+                                                    </div>
+                                                    <div class="song-play-area">
+                                                        <div class="song-name">
+                                                            <p>@i : @ViewBag.Songs[i-1].Title</p>
+                                                        </div>
+                                                        <audio preload="auto" controls>
+                                                            <source src="@ViewBag.Songs[i-1].Audio">
+                                                        </audio>
+                                                    </div>
+                                                </div>
+                                            </div>                 
+                                       }
+                                    </div>
+                                </div>
+                                </div>
+
+                                <!-- Buy Now -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="load-more-btn text-center">
+                                            <a href="#" class="btn oneMusic-btn">Buy Now <i class="fa fa-angle-double-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ##### Song Area End ##### -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Blog Area End ##### -->
+
+
+
+

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,89 +19,88 @@
         </div>
     </div>
 
-        <!-- ##### Header Area Start ##### -->
-        <div>
-            <header class="header-area" style="position: static; top: 0; background-color: black; z-index: 1000">
-                <!-- Navbar Area -->
-                <div class="oneMusic-main-menu">
-                    <div class="classy-nav-container breakpoint-off">
-                        <div class="container">
-                            <!-- Menu -->
-                            <nav class="classy-navbar justify-content-between" id="oneMusicNav">
+    <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="oneMusic-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="oneMusicNav">
 
-                                <!-- Nav brand -->
-                                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Layout/img/core-img/logo.png" alt=""></a>
+                        <!-- Nav brand -->
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Layout/img/core-img/logo.png" alt=""></a>
 
-                                <!-- Navbar Toggler -->
-                                <div class="classy-navbar-toggler">
-                                    <span class="navbarToggler"><span></span><span></span><span></span></span>
-                                </div>
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
 
-                                <!-- Menu -->
-                                <div class="classy-menu">
+                        <!-- Menu -->
+                        <div class="classy-menu">
 
-                                    <!-- Close Button -->
-                                    <div class="classycloseIcon">
-                                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                                    </div>
+                            <!-- Close Button -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
 
-                                    <!-- Nav Start -->
-                                    <div class="classynav">
-                                        <ul>
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                    <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
+                                    <li><a href="#">Pages</a>
+                                        <ul class="dropdown">
                                             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                                             <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
-                                            <li><a href="#">Pages</a>
+                                    
+                                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Login</a></li>
+                                            <li><a href="#">Dropdown</a>
                                                 <ul class="dropdown">
-                                                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                                                    <li><a asp-area="" asp-controller="Album" asp-action="Index">Albums</a></li>
-                                            
-                                                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Login</a></li>
-                                                    <li><a href="#">Dropdown</a>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a></li>
+                                                    <li><a href="#">Even Dropdown</a>
                                                         <ul class="dropdown">
-                                                            <li><a href="#">Even Dropdown</a></li>
-                                                            <li><a href="#">Even Dropdown</a></li>
-                                                            <li><a href="#">Even Dropdown</a></li>
-                                                            <li><a href="#">Even Dropdown</a>
-                                                                <ul class="dropdown">
-                                                                    <li><a href="#">Deeply Dropdown</a></li>
-                                                                    <li><a href="#">Deeply Dropdown</a></li>
-                                                                    <li><a href="#">Deeply Dropdown</a></li>
-                                                                    <li><a href="#">Deeply Dropdown</a></li>
-                                                                    <li><a href="#">Deeply Dropdown</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a href="#">Even Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
+                                                            <li><a href="#">Deeply Dropdown</a></li>
                                                         </ul>
                                                     </li>
+                                                    <li><a href="#">Even Dropdown</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
+                                    </li>
+                                </ul>
 
-                                        <!-- Login/Register & Cart Button -->
-                                        <div class="login-register-cart-button d-flex align-items-center">
-                                            <!-- Login/Register -->
-                                            <div class="login-register-btn mr-50">
-                                                <a asp-area="" asp-controller="Home" asp-action="Index" id="loginBtn">Login / Register</a>
-                                            </div>
-
-                                            <!-- Cart Button -->
-                                            <div class="cart-btn">
-                                                <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
-                                            </div>
-                                        </div>
+                                <!-- Login/Register & Cart Button -->
+                                <div class="login-register-cart-button d-flex align-items-center">
+                                    <!-- Login/Register -->
+                                    <div class="login-register-btn mr-50">
+                                        <a asp-area="" asp-controller="Account" asp-action="Login" id="loginBtn">Login</a>
+                                        <a asp-area="" asp-controller="Account" asp-action="Register" id="loginBtn">Register</a>
                                     </div>
-                                    <!-- Nav End -->
 
+                                    <!-- Cart Button -->
+                                    <div class="cart-btn">
+                                        <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
+                                    </div>
                                 </div>
-                            </nav>
+                            </div>
+                            <!-- Nav End -->
+
                         </div>
-                    </div>
+                    </nav>
                 </div>
-            </header>
+            </div>
         </div>
+    </header>
     <!-- ##### Header Area End ##### -->
 
-    <div style="position: relative; z-index: -1; padding-bottom: 10vh">
+    <div style="position: relative; z-index: 0; padding-bottom: 10vh">
         <main role="main">
             @RenderBody()
         </main>

@@ -38,7 +38,9 @@ namespace MVCmasr.Controllers
 
 		public IActionResult Details(int id)
 		{
-			Album album = unitOfWork.AlbumRepository.GetById(id);
+			Album album = unitOfWork.AlbumRepository.GetByIdWithAllData(id);
+            List<Song> songs = unitOfWork.SongRepository.GetAll().Where(i=> i.AlbumId == id).ToList();
+            ViewBag.Songs = songs;
 			return View(album);
 		}
 
