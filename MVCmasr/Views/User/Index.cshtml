@@ -1,7 +1,13 @@
 ﻿
 @model ApplicationUser
 
+@{
+    var base64 = Convert.ToBase64String(Model.Picture);
+    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+}
 
 <h2>
     @Model.Name
 </h2>
+
+<img src="@imgSrc" />

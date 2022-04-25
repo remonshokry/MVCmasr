@@ -16,5 +16,8 @@ namespace MVCmasr.Models
 
         public string CreditCardNumber { get; set; }
 
+        [Required]
+        public byte[] Picture { get; set; }
+
     }
 }

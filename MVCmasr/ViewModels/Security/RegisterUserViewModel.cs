@@ -1,6 +1,7 @@
 ﻿using MVCmasr.Validations;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVCmasr.ViewModels
 {
@@ -13,7 +14,7 @@ namespace MVCmasr.ViewModels
         public string Email { get; set; }
 
         [PhoneRegex, Display(Name = "Phone Number")]
-        [UniquePhone]
+        //[UniquePhone]
         public string Phone { get; set; }
 
         [Required,Range(3,100)]
@@ -30,5 +31,7 @@ namespace MVCmasr.ViewModels
         public string Address { get; set; }
 
         public string Role { get; set; }
+
+        public byte[] Picture { get; set; }
     }
 }

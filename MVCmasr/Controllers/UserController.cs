@@ -16,6 +16,7 @@ namespace MVCmasr.Controllers
         }
 
         [HttpGet]
+        [Route("{id}")]
         public async Task<IActionResult> Index(string id)
         {
             var user = await userManager.FindByIdAsync(id);

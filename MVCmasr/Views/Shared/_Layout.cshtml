@@ -1,4 +1,5 @@
-﻿﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -82,8 +83,31 @@
                                 <div class="login-register-cart-button d-flex align-items-center">
                                     <!-- Login/Register -->
                                     <div class="login-register-btn mr-50">
-                                        <a asp-area="" asp-controller="Account" asp-action="Login" id="loginBtn">Login</a>
-                                        <a asp-area="" asp-controller="Account" asp-action="Register" id="loginBtn">Register</a>
+                                        @if(User.Identity.IsAuthenticated == false)
+                                        {
+                                            <a class="mr-4" asp-area="" asp-controller="Account" asp-action="Login" id="loginBtn">Login</a>
+                                            <a asp-area="" asp-controller="Account" asp-action="Register" id="loginBtn">Register</a>
+                                        }
+                                        else
+                                        {
+                                            <a 
+                                                class="mr-4"
+                                                asp-area="" 
+                                                asp-controller="User" 
+                                                asp-action="index"
+                                                asp-route-id = "@User.Claims.FirstOrDefault(c => c.Type == "Id").Value"
+                                                id="userProfile">
+                                                Welcome  @User.Claims.FirstOrDefault(c => c.Type == "Name").Value
+                                            </a>
+                                            <a asp-area="" asp-controller="Account" asp-action="Signout" id="logoutBtn">Logout</a>
+                                             
+                                            @*@if(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value == "admin")
+                                            {
+                                                <div>
+                                                    <a class="ml-4" asp-area="" asp-controller="Account" asp-action="RegisterAdmin" id="registerAdminBtn">Add Admin</a>
+                                                </div>
+                                            }*@
+                                        }
                                     </div>
 
                                     <!-- Cart Button -->

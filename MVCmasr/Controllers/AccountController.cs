@@ -6,6 +6,8 @@ using MVCmasr.Models;
 using MVCmasr.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -47,20 +49,49 @@ namespace MVCmasr.Controllers
             }
             try
             {
+                var files = Request.Form.Files;
+
+                if (!files.Any())
+                {
+                    ModelState.AddModelError("Picture", "Please Select a Picture!");
+                    return View(registerUser);
+                }
+
+                var picture = files.FirstOrDefault();
+                var allowedExtensions = new List<string> { ".jpg", ".png" };
+
+                if (!allowedExtensions.Contains(Path.GetExtension(picture.FileName).ToLower()))
+                {
+                    ModelState.AddModelError("Picture", "Only .jpg and .png images are allowed!");
+                    return View(registerUser);
+                }
+
+                if (picture.Length > 1048576)
+                {
+                    ModelState.AddModelError("Picture", "poster cant be more then 1 MB!");
+                    return View(registerUser);
+                }
+
+                using var dataStream = new MemoryStream();
+
+                await picture.CopyToAsync(dataStream);
+
+
                 ApplicationUser userModel = new ApplicationUser
                 {
-                    Name = registerUser.UserName, 
+                    Name = registerUser.UserName,
                     UserName = Guid.NewGuid().ToString(),
                     Email = registerUser.Email,
                     Age = registerUser.Age,
                     PhoneNumber = registerUser.Phone,
-                    Address = registerUser.Address
+                    Address = registerUser.Address,
+                    Picture = dataStream.ToArray()
                 };
 
                 IdentityResult creationResult =
                     await userManager.CreateAsync(userModel, registerUser.Password);
 
-                if(!creationResult.Succeeded)
+                if (!creationResult.Succeeded)
                 {
                     foreach (var error in creationResult.Errors)
                     {
@@ -87,7 +118,7 @@ namespace MVCmasr.Controllers
                     }
                 }
 
-                if(registerUser.Role == "user")
+                if (registerUser.Role == "user")
                 {
                     notyfService.Success("User Successfully Created");
                     return RedirectToAction("Login");
@@ -95,7 +126,7 @@ namespace MVCmasr.Controllers
                 else
                 {
                     notyfService.Success("Admin Successfully Created");
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 }
 
             }
