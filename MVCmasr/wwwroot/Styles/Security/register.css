@@ -63,43 +63,25 @@ input[type=number] {
     transform: translate(-10px,0);
 }
 
-/* .custom-nav-container
+@media (max-width: 1200px) 
 {
-    width: 100%;
-    background-color: black;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 10px !important;
-    border-bottom-color: red !important;
-}
+    .custom-nav-container
+    {
+        background: none !important;
+    }
 
-.custom-nav
-{
-    width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10rem 0 1rem;
-}
+    .custom-nav
+    {
+        padding: 0 2rem 0 1rem !important;
+    }
 
-.custom-nav h2
-{
-    color: white;
-    padding-top: 0.25rem;
-}
+    .form-container
+    {
+        margin-top: 5vh;
+    }
 
-.custom-nav-links
-{
-    display: flex;
-    column-gap: 1.7rem;
+    .form-container 
+    {
+        width: 450px;
+    }
 }
-
-.custom-nav-links a
-{
-    font-size: 1.2rem;
-    color: white;
-} */
