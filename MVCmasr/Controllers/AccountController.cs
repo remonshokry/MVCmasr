@@ -49,6 +49,7 @@ namespace MVCmasr.Controllers
             }
             try
             {
+                #region Get Picture File
                 var files = Request.Form.Files;
 
                 if (!files.Any())
@@ -75,8 +76,9 @@ namespace MVCmasr.Controllers
                 using var dataStream = new MemoryStream();
 
                 await picture.CopyToAsync(dataStream);
+                #endregion
 
-
+                #region Register User
                 ApplicationUser userModel = new ApplicationUser
                 {
                     Name = registerUser.UserName,
@@ -98,7 +100,9 @@ namespace MVCmasr.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
+                #endregion
 
+                #region Add User Claims
                 var creatingClaimsResult = await userManager.AddClaimsAsync(userModel, new List<Claim>
                 {
                     //new Claim (ClaimTypes.NameIdentifier, userModel.Name), 
@@ -117,7 +121,9 @@ namespace MVCmasr.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
+                #endregion
 
+                #region Redirect on Success register
                 if (registerUser.Role == "user")
                 {
                     notyfService.Success("User Successfully Created");
@@ -128,6 +134,7 @@ namespace MVCmasr.Controllers
                     notyfService.Success("Admin Successfully Created");
                     return RedirectToAction("Index", "Home");
                 }
+                #endregion
 
             }
             catch (Exception ex)
