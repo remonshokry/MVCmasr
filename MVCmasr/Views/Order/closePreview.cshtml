@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "closePreview";
+    Layout = "_AlbumDetails";
+}
+
+<h1>closePreview</h1>
+
+
+<button onclick="closePreview()">Continue Browsing...</button>
+
+
+@section Scripts{
+        <script>
+            function closePreview(){
+                window.location.reload();
+            }
+        </script>
+    }

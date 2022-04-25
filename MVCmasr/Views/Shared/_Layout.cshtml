@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - MVCmasr</title>
     <link rel="icon" href="~/favicon.ico">
 
+    @await RenderSectionAsync("Styles", required: false)
+
     <link rel="stylesheet" href="~/Layout/style.css">
 </head>
 <body style="position: relative; min-height: 100vh; width: 100%">
@@ -86,7 +88,7 @@
 
                                     <!-- Cart Button -->
                                     <div class="cart-btn">
-                                        <p><span class="icon-shopping-cart"></span> <span class="quantity">1</span></p>
+                                        <a asp-controller="Order" asp-action="Cart"><span class="icon-shopping-cart"></span> <span class="quantity">1</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -108,14 +110,13 @@
 
 
         <!-- ##### Footer Area Start ##### -->
-    <footer class="footer-area container-fluid" style="position: absolute; bottom: 0;">
+    @*<footer class="footer-area container-fluid" style="position: absolute; bottom: 0;">
         <div class="container">
             <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-12 col-md-6">
                     <a href="#"><img src="~/Layout/img/core-img/logo.png" alt=""></a>
                     <p class="copywrite-text"><a href="#">
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This Website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a asp-area="" asp-controller="Home" asp-action="Index" target="_blank">MVCmasr</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This Website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a asp-area="" asp-controller="Home" asp-action="Index" target="_blank">MVCmasr</a></p>
                 </div>
 
                 <div class="col-12 col-md-6">
@@ -129,7 +130,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>*@
+
+
+
     @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>*@

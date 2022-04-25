@@ -10,5 +10,6 @@
     <div style="background: url(/Layout/img/bg-img/bg-4.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;">
         @RenderBody()
     </div>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
