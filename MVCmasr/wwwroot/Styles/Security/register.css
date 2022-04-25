@@ -84,7 +84,6 @@ input[type=number] {
     align-items: center;
     justify-content: space-between;
     padding: 0 10rem 0 1rem;
-    /* background-color: lightblue; */
 }
 
 .custom-nav h2
