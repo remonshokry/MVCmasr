@@ -1,4 +1,9 @@
 ﻿body {
+    background-image: url("/assets/img/login-register/b2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 98vw;
 }
 
 input::-webkit-outer-spin-button,
@@ -9,4 +14,53 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield;
+}
+
+/* .register-page
+{
+    background-color: aquamarine;
+} */
+
+.register-container
+{
+    background-color: transparent; 
+    height: 84vh;
+    margin-top: 8vh
+}
+
+.form-container {
+    background-color: lightgrey;
+    border-radius: 1rem;
+    
+}
+
+.register-page form
+{
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem
+}
+
+#picture-container
+{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#picture-image
+{
+    max-width: 90%;
+    max-height: 75%;
+}
+
+#logged-in
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.5rem;
+    font-size: 1rem;
+    transform: translate(-10px,-8px);
 }

@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/favicon.ico">
+    @await RenderSectionAsync("Styles", required: false)
+    <link rel="stylesheet" href="~/Layout/style.css">
+</head>
+<body>
+    <div class="register-page">
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Register";
+    Layout = "_Register";
 }
 
 @section Styles {
@@ -10,12 +11,11 @@
 
 
 
-<div class="row mt-3">
-    <div class="col-md-6">
+<div class="row register-container">
+    <div class="col-md-4 offset-1 form-container">
 
-        <div class="d-flex justify-content-between align-content-center">
+        <div class="d-flex justify-content-center align-content-center mt-1">
             <h1>@ViewData["Header"]</h1>
-            <a asp-action="Login">Login</a>
         </div>
         <hr />
 
@@ -58,15 +58,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col">
+                <div class="form-group col-12">
                     <label asp-for="Address" class="control-label"></label>
                     <input asp-for="Address" class="form-control" />
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
                 <div class="form-group col">
-                    @*<label asp-for="Role" class="control-label"></label>*@
                     <input asp-for="Role" class="form-control" type="hidden" value="@ViewData["Role"]" />
-                    @*<span asp-validation-for="Role" class="text-danger"></span>*@
                 </div>
             </div>
 
@@ -82,18 +80,21 @@
                 <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
 
-
             <div class="form-group w-100 mt-3">
                 <input type="submit" value="Create" class="btn btn-primary w-100" />
+            </div>
+
+            <div id="logged-in">
+                Already Logged in? <a asp-action="Login">Login</a>
             </div>
         </form>
 
     </div>
-    <div class="col-md-4">
-        <div id="picture-container" class="d-none">
-            <img src="#" atl="Picture Image" id="picture-image" class="img-thumbnail" />
-        </div>
+    
+    <div id="picture-container" class="d-none col-md-3 offset-2">
+        <img src="#" atl="Picture Image" id="picture-image" class="img-thumbnail" />
     </div>
+
 </div>
 
 
