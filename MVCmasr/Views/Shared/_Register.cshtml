@@ -9,7 +9,63 @@
     <link rel="stylesheet" href="~/Layout/style.css">
 </head>
 <body>
-    <div class="register-page">
+
+    <style>
+        .custom-nav-container
+{
+    width: 100%;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 10px !important;
+    border-bottom-color: red !important;
+}
+
+.custom-nav
+{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10rem 0 1rem;
+    /* background-color: lightblue; */
+}
+
+.custom-nav h2
+{
+    color: white;
+    padding-top: 0.25rem;
+}
+
+.custom-nav-links
+{
+    display: flex;
+    column-gap: 1.7rem;
+}
+
+.custom-nav-links a
+{
+    font-size: 1.2rem;
+    color: white;
+}
+    </style>
+
+    <div>
+        <div class="custom-nav-container p-0 m-0">
+        <div class="custom-nav">
+            <div>
+                <h2>One Sound</h2>
+            </div>
+            <div class="custom-nav-links">
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a asp-area="" asp-controller="Album" asp-action="Index">Albums</a>
+            </div>
+        </div>
+        </div>
         <div>
             @RenderBody()
         </div>

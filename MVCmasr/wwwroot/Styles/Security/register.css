@@ -1,9 +1,10 @@
 ﻿body {
     background-image: url("/assets/img/login-register/b2.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size:cover;
+    background-repeat:repeat;
     background-position: center;
     width: 98vw;
+    min-height: 80vh;
 }
 
 input::-webkit-outer-spin-button,
@@ -16,29 +17,26 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-/* .register-page
-{
-    background-color: aquamarine;
-} */
-
 .register-container
 {
-    background-color: transparent; 
     height: 84vh;
-    margin-top: 8vh
+    margin-top: 10vh
 }
 
 .form-container {
     background-color: lightgrey;
     border-radius: 1rem;
-    
+    width: 500px;
+    height: 630px;
+    padding: 0 1.5rem;
+    font-size: 1rem !important;
 }
 
 .register-page form
 {
     display: flex;
     flex-direction: column;
-    row-gap: 0.5rem
+    row-gap: 0.5rem;
 }
 
 #picture-container
@@ -62,5 +60,47 @@ input[type=number] {
     justify-content: center;
     column-gap: 0.5rem;
     font-size: 1rem;
-    transform: translate(-10px,-8px);
+    transform: translate(-10px,0);
 }
+
+/* .custom-nav-container
+{
+    width: 100%;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 10px !important;
+    border-bottom-color: red !important;
+}
+
+.custom-nav
+{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10rem 0 1rem;
+    /* background-color: lightblue; */
+}
+
+.custom-nav h2
+{
+    color: white;
+    padding-top: 0.25rem;
+}
+
+.custom-nav-links
+{
+    display: flex;
+    column-gap: 1.7rem;
+}
+
+.custom-nav-links a
+{
+    font-size: 1.2rem;
+    color: white;
+} */

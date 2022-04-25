@@ -9,11 +9,10 @@
     <link href="@Url.Content("~/Styles/Security/login.css")" rel="stylesheet" type="text/css" />
 }
 
-<h1>Login</h1>
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="login-container">
+    <h1 class="pt-3">Login</h1>
+    <hr />
+    <div class="login-form-container">
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="ReturnUrl" value="@ViewData["RedirectURL"]" />
@@ -32,16 +31,16 @@
                     <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group btn-submit">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
+        <div id="not-registered">
+            Not Registered Yet ?<a asp-action="Register">Register</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Register">Register</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

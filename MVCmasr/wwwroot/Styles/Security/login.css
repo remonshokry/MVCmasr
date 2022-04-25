@@ -1,8 +1,61 @@
 ﻿body {
-    background-color: red;
+    background-image: url("/assets/img/login-register/b2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 98vw;
+    height: 100vh;
 }
 
-h1
+.login-container
 {
-    color: red;
+    background-color: lightgray !important;
+    width:  350px;
+    height: 450px;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.login-form-container
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container form
+{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.75rem;
+    font-size: 1rem;
+}
+
+.login-container form .btn-submit
+{
+    align-self: center;
+}
+
+.login-container form .btn-submit input
+{
+    width: 75px;
+}
+
+#not-registered
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.5rem;
+    font-size: 1rem;
+    transform: translate(0,0);
 }
