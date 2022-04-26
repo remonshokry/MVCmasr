@@ -173,16 +173,16 @@ namespace MVCmasr.Controllers
             var array = album.Image.Split("/").SkipLast(1);
             string albumPath = wwwrootPath + String.Join("/", array);
             string imagePath = wwwrootPath + album.Image;
-            //using (var stream = System.IO.File.Open(imagePath, FileMode.Open, FileAccess.Write))
-            //{
-                //stream.Close();
-                //stream.Dispose();
+            
+            using (var stream = System.IO.File.Open(imagePath, FileMode.Truncate))
+            {
+                stream.Close();
+                stream.Dispose();
                 if (Directory.Exists(albumPath))
                 {
                     Directory.Delete(albumPath, true);
-
                 }
-            //}
+            }
         }
 
         [HttpGet]

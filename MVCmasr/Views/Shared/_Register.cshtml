@@ -46,7 +46,7 @@
         .custom-nav-links
         {
             display: flex;
-            column-gap: 1.7rem;
+            column-gap: 1.6rem;
         }
 
         .custom-nav-links a
@@ -65,6 +65,34 @@
             <div class="custom-nav-links">
                 <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 <a asp-area="" asp-controller="Album" asp-action="Index">Albums</a>
+                 @if(User.Identity.IsAuthenticated == false)
+                {
+                    <div>
+                        <a class="mr-4" asp-area="" asp-controller="Account" asp-action="Login" id="loginBtn">Login</a>
+                        <a asp-area="" asp-controller="Account" asp-action="Register" id="loginBtn">Register</a>
+                    </div>
+                }
+                else
+                {
+                    <a 
+                        style="color:brown !important"
+                        class="mr-4"
+                        asp-area="" 
+                        asp-controller="User" 
+                        asp-action="index"
+                        asp-route-id = "@User.Claims.FirstOrDefault(c => c.Type == "Id").Value"
+                        id="userProfile">
+                        Welcome  @User.Claims.FirstOrDefault(c => c.Type == "Name").Value
+                    </a>
+                    <a asp-area="" asp-controller="Account" asp-action="Signout" id="logoutBtn">Logout</a>
+                        
+                    @*@if(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value == "admin")
+                    {
+                        <div>
+                            <a class="ml-4" asp-area="" asp-controller="Account" asp-action="RegisterAdmin" id="registerAdminBtn">Add Admin</a>
+                        </div>
+                    }*@
+                }
             </div>
         </div>
         </div>

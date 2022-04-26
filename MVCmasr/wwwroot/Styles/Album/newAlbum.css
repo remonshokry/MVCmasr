@@ -1,0 +1,85 @@
+﻿body {
+    background-image: url("/assets/img/albumCovers/new/c2.jpg");
+    background-size:cover;
+    background-repeat:repeat;
+    background-position: center;
+    width: 98vw;
+    min-height: 80vh;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.new-album-container
+{
+    height: 84vh;
+    margin-top: 10vh
+}
+
+.new-album-form-container {
+    background-color: lightgrey;
+    border-radius: 1rem;
+    width: 500px;
+    height: 630px;
+    padding: 0 1.5rem;
+    font-size: 1rem !important;
+}
+
+.new-album-container form
+{
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+}
+
+#poster-container
+{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#poster-image
+{
+    max-width: 90%;
+    max-height: 75%;
+}
+
+.form-btns
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 1rem;
+}
+
+.form-btns a,
+.form-btns input
+{
+    width: 100px;
+}
+
+/* CUSTOM NAVBAR */
+.custom-nav-container
+{
+    background: rgba(92, 92, 92, 0.7) !important;
+}
+
+.custom-nav h2
+{
+    color: white !important;
+    visibility: hidden;
+}
+
+.custom-nav-links a
+{
+    color: white !important;
+}
