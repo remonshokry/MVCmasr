@@ -44,6 +44,8 @@ namespace MVCmasr.Controllers
                                  album.First().AlbumId
                              };
 
+            //var prices = orders.GroupBy(a => a.AlbumId).Select(g => g.Key);
+
             var selectedAlbumIds = orders.Select(i => i.AlbumId).ToList();
             var albumsIds = orders.Select(a => a.AlbumId).Distinct().ToList();
 
@@ -53,7 +55,7 @@ namespace MVCmasr.Controllers
             var quantitiesss = orders.GroupBy(a => a.AlbumId).Select(g => g.Key).ToList();
 
 
-
+            HttpContext.Session.SetInt32("Quantity", albums.Count());
 
 
             //orders = orders.Select(o => o.Album = unitofwork.AlbumRepository.GetById(o.AlbumId)).ToList();
@@ -61,6 +63,8 @@ namespace MVCmasr.Controllers
 
             ViewBag.Albums = albums;
             ViewBag.Quantities = quantities;
+
+            ViewBag.TotalPrice = orders.Sum(s => s.Price);
 
             return View(orders);
 		}
@@ -74,7 +78,9 @@ namespace MVCmasr.Controllers
             OrderItemsSession order = new OrderItemsSession();
             order.AlbumId = id;
             order.UserId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
-            order.Quantity = 5;
+
+            order.Quantity = 1;
+
             Album album = unitofwork.AlbumRepository.GetById(id);
             order.Price = album.Price * order.Quantity;
             context.OrderItemsSessions.Add(order);
@@ -148,5 +154,25 @@ namespace MVCmasr.Controllers
                 return View();
             }
         }
+
+
+        public IActionResult ChangeQuantity(int quantity, int albumId)
+		{
+            // add this code to proceed to checkout
+
+            //Album album = unitofwork.AlbumRepository.GetById(albumId);
+            //OrderItem item = new OrderItem();
+            //item.Quantity = quantity;
+            //item.AlbumId = albumId;
+            //item.Price = album.Price * quantity;
+            //item.OrderId = 0;
+
+            //context.OrderItems.Add(item);
+            //context.SaveChanges();
+
+            ViewBag.Quantity = quantity;
+            return Content(quantity.ToString());
+            //return RedirectToAction("Cart", "Order");
+		}
     }
 }

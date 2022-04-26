@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVCmasr.Models;
@@ -20,6 +21,14 @@ namespace MVCmasr.Controllers
 
         public IActionResult Index()
         {
+			if (HttpContext.Session.GetInt32("Quantity") is not null)
+			{
+                ViewBag.Quantity = HttpContext.Session.GetInt32("Quantity").Value;
+			}
+			else
+			{
+                ViewBag.Quantity = 0;
+			}
             return View();
         }
 

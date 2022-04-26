@@ -1,4 +1,8 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using System.Web;
+
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +11,9 @@
     <title>@ViewData["Title"] - MVCmasr</title>
     <link rel="icon" href="~/favicon.ico">
 
-    @await RenderSectionAsync("Styles", required: false)
-
     <link rel="stylesheet" href="~/Layout/style.css">
+
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body style="position: relative; min-height: 100vh; width: 100%">
     <!-- Preloader -->
@@ -112,7 +116,10 @@
 
                                     <!-- Cart Button -->
                                     <div class="cart-btn">
-                                        <a asp-controller="Order" asp-action="Cart"><span class="icon-shopping-cart"></span> <span class="quantity">1</span></a>
+                                        <a asp-controller="Order" asp-action="Cart"><p><span class="icon-shopping-cart"></span> <span class="quantity" style="color:white;">
+                                            @ViewBag.Quantity
+                                            @*@HttpContext.Session.GetInt32("Quantity").Value;*@
+                                        </span></p></a>
                                     </div>
                                 </div>
                             </div>

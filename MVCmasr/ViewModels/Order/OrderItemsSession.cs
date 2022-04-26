@@ -12,6 +12,9 @@ namespace MVCmasr.ViewModels.Order
         public decimal Price { get; set; }
 
         [NotMapped]
+        public decimal TotalPrice => Price * Quantity;
+
+		[NotMapped]
 		public Album Album { get; set; } = new Album();
 	}
 }

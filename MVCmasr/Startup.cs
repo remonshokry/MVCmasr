@@ -29,7 +29,14 @@ namespace MVCmasr
         public void ConfigureServices(IServiceCollection services)
         {
             #region Default Services
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddSessionStateTempDataProvider();
+            services.AddHttpContextAccessor();
+            services.AddSession(so =>
+            {
+                so.IdleTimeout = TimeSpan.FromSeconds(60);
+            });
+
+            services.AddMvc();
             #endregion
 
             #region DataBase
@@ -99,6 +106,8 @@ namespace MVCmasr
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthentication();
 

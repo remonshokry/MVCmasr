@@ -7,6 +7,9 @@
 
 @section Styles{
     <!-- Css Styles -->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap">
     <link rel="stylesheet" href="~/Layout/css/cart/cart_bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="~/Layout/css/cart/cart_flaticon.css" type="text/css">
     <link rel="stylesheet" href="~/Layout/css/cart/cart_barfiller.css" type="text/css">
@@ -58,9 +61,9 @@
                             <tbody>
                                 @for (var i = 0; i < @ViewBag.Albums.Count; i++)
                                {
-                                    <tr>
+                                    <tr id="tableRow">
                                         <td class="product__cart__item">
-                                            <div class="product__cart__item__pic">
+                                            <div class="product__cart__item__pic" style="width: 10rem; height: 10rem;">
                                                 <img src="@ViewBag.Albums[i].Image" alt="">
                                             </div>
                                             <div class="product__cart__item__text">
@@ -70,13 +73,13 @@
                                         </td>
                                         <td class="quantity__item">
                                             <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1">
+                                                <div class="pro-qty" id="pro-qty">
+                                                    <input type="number" min="0" class="form-control" style="border: 1px solid black;" value="1" id="@ViewBag.Albums[i].Id" onchange="updateQuantity(event)">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price">$ @ViewBag.Albums[i].Price</td>
-                                        <td class="cart__close"><span class="icon_close"></span></td>
+                                        <td class="cart__price" id="@ViewBag.Albums[i].Id+pri">$ @ViewBag.Albums[i].Price</td>
+                                        <td class="cart__close"><span class="icon_close">X</span></td>
                                     </tr>
                                }
                             </tbody>
@@ -87,6 +90,9 @@
                             <div class="continue__btn">
                                 <a asp-controller="Album" asp-action="Index">Continue Shopping</a>
                             </div>
+                        </div>
+                        <div id="dataFromAjax">
+                            <h2></h2>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
@@ -106,8 +112,8 @@
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
+                            <li>Subtotal <span>$ @ViewBag.TotalPrice</span></li>
+                            <li>Total <span>$ @ViewBag.TotalPrice</span></li>
                         </ul>
                         <a href="#" class="primary-btn">Proceed to checkout</a>
                     </div>
@@ -116,3 +122,60 @@
         </div>
     </section>
     <!-- Shopping Cart Section End -->
+
+
+    @section Scripts{
+        <!-- Js Plugins -->
+        <script src="~/Layout/js/cart/jquery.nice-select.min.js"></script>
+        <script src="~/Layout/js/cart/jquery.barfiller.js"></script>
+        <script src="~/Layout/js/cart/jquery.magnific-popup.min.js"></script>
+        <script src="~/Layout/js/cart/jquery.slicknav.js"></script>
+        <script src="~/Layout/js/cart/jquery.nicescroll.min.js"></script>
+        <script src="~/Layout/js/cart/main.js"></script>
+
+
+        <script>
+            window.onload = () => {
+               var qtyElements = document.getElementsByClassName("pro-qty");
+               for(var i=0; i<qtyElements.length; i++){
+                   qtyElements[i].firstElementChild.setAttribute("style", "display: none");
+                   qtyElements[i].lastElementChild.setAttribute("style", "display: none");
+               }
+            }
+
+            function updateQuantity(){
+                var quantity = event.target.value;
+                var albumId = event.target.id;
+                var price = event.target.id;
+                $.ajax({
+					url: "@Url.Action("ChangeQuantity", "Order")",
+                    data: {
+                            "quantity": quantity,
+                            "albumId": albumId
+                            }
+				}).done(function (result) {
+                    //console.log(result);
+					//${"#dataFromAjax h2"}.text(result)
+                    console.log(price);
+					console.log($("#" + price + "+pri"))
+                    //$('#tableRow').children().last().attr(`#${event.target.id}`).text(result);
+				});
+
+
+
+        //        //var quantity = document.getElementsByClassName("albumQuantity").value;
+        //        var quantities = document.getElementsByClassName("albumQuantity");
+        //        for(var i=0; i<quantities.length; i++){
+        //        console.log(quantities);
+        //            $.ajax({
+					   // url: "Url.Action("Order", "ChangeQuantity")",
+        //                data: quantities[i].value
+				    //}).done(function (data) {
+					   // console.log(quantities[i].value);
+				    //});
+        //        }
+
+
+            }
+        </script>
+    }
