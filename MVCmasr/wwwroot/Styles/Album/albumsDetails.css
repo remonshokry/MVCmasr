@@ -1,0 +1,95 @@
+﻿body {
+    background-image: url("/assets/img/albumCovers/new/c4.jpg");
+    background-size:cover;
+    background-repeat:repeat;
+    background-position: center;
+    width: 98vw;
+    min-height: 80vh;
+    padding-top: 10vh;
+}
+
+.albums-details-table
+{
+    width: 90% !important;
+    margin: auto;
+}
+
+.table-album-image
+{
+    width: 200px;
+    max-height: 150px;
+}
+
+.table-album-image img
+{
+    width: 100% !important;
+    max-height: 100px !important;
+}
+
+.albums-details-table thead,
+.albums-details-table thead a
+{
+    font-size: 1rem;
+    color: white;
+}
+
+.albums-details-table tbody tr td
+{
+    padding: 25px 10px 10px 15px;
+} 
+
+.album-table-action-links
+{
+    display: flex;
+    column-gap: 0.5rem;
+}
+
+.album-table-action-links a
+{
+    font-size: 1rem;
+    color: white;
+}
+
+.album-table-action-links a:hover
+{
+    color: brown !important;
+}
+
+.create-new-album
+{
+    padding-bottom: 3vh;
+    width: 90% !important;
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.create-new-album a
+{
+    background-color: lightgray;
+    font-size: 1.1rem;
+    width: 150px;
+}
+.create-new-album a:hover
+{
+    font-size: 1.1rem;
+    color: brown !important;
+}
+
+
+
+/* CUSTOM NAVBAR */
+.custom-nav-container
+{
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.custom-nav h2
+{
+    color: white !important;
+}
+
+.custom-nav-links a
+{
+    color: white !important;
+}
+

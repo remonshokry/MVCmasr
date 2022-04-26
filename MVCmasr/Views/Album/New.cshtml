@@ -1,88 +1,107 @@
 ﻿@model MVCmasr.ViewModels.AlbumGenreViewModel
 
 @{
-    ViewData["Title"] = "New";
-    //SelectList genreList = new SelectList(ViewBag.Genres,"Id","Name");
+    ViewData["Title"] = "Add Album";
+    Layout = "_Register";
 }
 
-<h1>New</h1>
+@section Styles {
+    <link href="@Url.Content("~/Styles/Album/newAlbum.css")" rel="stylesheet" type="text/css" />
+}
 
-<h4>Album</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+<div class="row new-album-container">
+
+    <div class="offset-1 new-album-form-container">
+
+        <div class="d-flex justify-content-center align-content-center mt-3">
+            <h1>Add Album</h1>
+        </div>
+        <hr />
+
         <form asp-action="SaveNew" enctype = "multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model.Album.Title" class="control-label"></label>
-                <input asp-for="@Model.Album.Title" class="form-control" />
-                <span asp-validation-for="@Model.Album.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Album.ReleaseDate" class="control-label"></label>
-                <input asp-for="@Model.Album.ReleaseDate" class="form-control" />
-                <span asp-validation-for="@Model.Album.ReleaseDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Album.SongsNumber" class="control-label"></label>
-                <input asp-for="@Model.Album.SongsNumber" class="form-control" />
-                <span asp-validation-for="@Model.Album.SongsNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Album.Price" class="control-label"></label>
-                <input asp-for="@Model.Album.Price" class="form-control" />
-                <span asp-validation-for="@Model.Album.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Album.CountInStock" class="control-label"></label>
-                <input asp-for="@Model.Album.CountInStock" class="form-control" />
-                <span asp-validation-for="@Model.Album.CountInStock" class="text-danger"></span>
-            </div>
-            <div class = "form-group">
-            <label asp-for = "@Model.Album.ImageFile "></label>
-            <input 
-                asp-for = "@Model.Album.ImageFile" 
-                class = "form-control" 
-                id="poster" 
-                accept = "image/*"
-                onchange=ShowImage(this)
-            />
-            </div>
-            <div class="form-group">
 
-                <label asp-for="@Model.Album.Genres" class="control-label"></label>
-                <select asp-for="@Model.SelectedGenresIds" class="form-control" multiple >
-                @foreach (var genre in @Model.Genres)
-               {
-                    <option value = "@genre.Id">@genre.Name</option>
-               }
-                </select>
-                <span asp-validation-for="@Model.Album.Genres" class="text-danger"></span>
-
-            </div>
-            <div class="form-group">
-
-                <label asp-for="@Model.Album.Artists" class="control-label"></label>
-                <select asp-for="@Model.SelectedArtistsIds" class="form-control" multiple >
-                @foreach (var artist in @Model.Artists)
-               {
-                    <option value = "@artist.Id">@artist.Name</option>
-               }
-                </select>
-                <span asp-validation-for="@Model.Album.Artists" class="text-danger"></span>
-
+            <div class="row">
+                <div class="form-group col">
+                    <label asp-for="@Model.Album.Title" class="control-label"></label>
+                    <input asp-for="@Model.Album.Title" class="form-control" />
+                    <span asp-validation-for="@Model.Album.Title" class="text-danger"></span>
+                </div>
+                <div class="form-group col">
+                    <label asp-for="@Model.Album.ReleaseDate" class="control-label"></label>
+                    <input asp-for="@Model.Album.ReleaseDate" class="form-control" />
+                    <span asp-validation-for="@Model.Album.ReleaseDate" class="text-danger"></span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
+            <div class="row">
+                <div class="form-group col">
+                    <label asp-for="@Model.Album.SongsNumber" class="control-label"></label>
+                    <input asp-for="@Model.Album.SongsNumber" class="form-control" />
+                    <span asp-validation-for="@Model.Album.SongsNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group col">
+                    <label asp-for="@Model.Album.Price" class="control-label"></label>
+                    <input asp-for="@Model.Album.Price" class="form-control" />
+                    <span asp-validation-for="@Model.Album.Price" class="text-danger"></span>
+                </div>
+                <div class="form-group col">
+                    <label asp-for="@Model.Album.CountInStock" class="control-label"></label>
+                    <input asp-for="@Model.Album.CountInStock" class="form-control" />
+                    <span asp-validation-for="@Model.Album.CountInStock" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class = "form-group col">
+                <label asp-for = "@Model.Album.ImageFile "></label>
+                <input 
+                    asp-for = "@Model.Album.ImageFile" 
+                    class = "form-control" 
+                    id="poster" 
+                    accept = "image/*"
+                    onchange=ShowImage(this)
+                />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col">
+
+                    <label asp-for="@Model.Album.Genres" class="control-label"></label>
+                    <select asp-for="@Model.SelectedGenresIds" class="form-control" multiple >
+                    @foreach (var genre in @Model.Genres)
+                   {
+                        <option value = "@genre.Id">@genre.Name</option>
+                   }
+                    </select>
+                    <span asp-validation-for="@Model.Album.Genres" class="text-danger"></span>
+
+                </div>
+                <div class="form-group col">
+
+                    <label asp-for="@Model.Album.Artists" class="control-label"></label>
+                    <select asp-for="@Model.SelectedArtistsIds" class="form-control" multiple >
+                    @foreach (var artist in @Model.Artists)
+                   {
+                        <option value = "@artist.Id">@artist.Name</option>
+                   }
+                    </select>
+                    <span asp-validation-for="@Model.Album.Artists" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <div class="form-group form-btns mt-3">
                 <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                <input type="submit" value="Create" class="btn btn-primary"/>
             </div>
         </form>
     </div>
-    <div class="col-md-4">
-        <div id="poster-container" class="d-none">
-            <img src="#" atl="Poster Image" id="poster-image" class="img-thumbnail" />
-        </div>
+ 
+    <div id="poster-container" class="d-none col-md-3 offset-lg-2 offset-1">
+        <img src="#" atl="poster Image" id="poster-image" class="img-thumbnail" />
     </div>
 </div>
 

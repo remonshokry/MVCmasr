@@ -1,7 +1,7 @@
 ﻿body {
     background-image: url("/assets/img/login-register/b2.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size:cover;
+    background-repeat:repeat;
     background-position: center;
     width: 98vw;
     height: 100vh;
@@ -58,4 +58,33 @@
     column-gap: 0.5rem;
     font-size: 1rem;
     transform: translate(0,0);
+}
+
+@media (max-width: 1200px) 
+{
+    .custom-nav-container
+    {
+        background: none !important;
+    }
+
+    .custom-nav
+    {
+        padding: 0 2rem 0 1rem !important;
+    }
+    
+    .login-container
+    {
+        margin-top: 5vh;
+    }
+
+
+    .login-container
+    {
+        height: 420px;
+    }
+
+    .login-container form
+    {
+        row-gap: 0.1rem;
+    }
 }

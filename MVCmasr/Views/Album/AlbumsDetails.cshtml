@@ -1,6 +1,21 @@
-﻿@model IEnumerable<MVCmasr.Models.Album>
+﻿@using System.Security.Claims
+@model IEnumerable<MVCmasr.Models.Album>
 
-<table class="table">
+@{
+    ViewData["Title"] = "Albums Details";
+    Layout = "_Register";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/Styles/Album/albumsDetails.css")" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="create-new-album">
+    <a class="btn" asp-action="New">Create New Album</a>
+</div>
+
+<table class="albums-details-table table table-dark">
     <thead>
         <tr>
             <th>
@@ -22,37 +37,37 @@
                 @Html.DisplayNameFor(model => model.CountInStock)
             </th>
             <th>
-                 <a asp-action="New">Create New</a>
+                Action
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <th>
-                <img src="@item.Image" style="width:50px;"/>
-            </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SongsNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountInStock)
-            </td>
-            <td>
-                <a asp-controller="Album" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-controller="Album" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-controller="Album" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model) {
+            <tr>
+                <td class="table-album-image">
+                    <img src="@item.Image" style="width:50px;"/>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SongsNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountInStock)
+                </td>
+                <td class="album-table-action-links">
+                    <a asp-controller="Album" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="Album" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="Album" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

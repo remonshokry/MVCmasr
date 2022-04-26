@@ -12,45 +12,48 @@
 
     <style>
         .custom-nav-container
-{
-    width: 100%;
-    background-color: black;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 10px !important;
-    border-bottom-color: red !important;
-}
+        {
+            width: 100%;
+            max-height: 75px;
+            background: rgb(0,12,36);
+            background: linear-gradient(90deg, rgba(0,12,36,1) 0%, rgba(9,19,121,0.8323529240797882) 57%, rgba(18,20,128,1) 100%); 
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 10px !important;
+            border-bottom-color: red !important;
+        }
 
-.custom-nav
-{
-    width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10rem 0 1rem;
-}
+        .custom-nav
+        {
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10rem 0 1rem;
+        }
 
-.custom-nav h2
-{
-    color: white;
-    padding-top: 0.25rem;
-}
+        .custom-nav h2
+        {
+            color: lightgrey;
+            padding-top: 0.25rem;
+            min-width: 200px;
+        }
 
-.custom-nav-links
-{
-    display: flex;
-    column-gap: 1.7rem;
-}
+        .custom-nav-links
+        {
+            display: flex;
+            column-gap: 1.6rem;
+        }
 
-.custom-nav-links a
-{
-    font-size: 1.2rem;
-    color: white;
-}
+        .custom-nav-links a
+        {
+            font-size: 1.2rem;
+            color: lightgrey;
+        }
     </style>
 
     <div>
@@ -62,6 +65,34 @@
             <div class="custom-nav-links">
                 <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 <a asp-area="" asp-controller="Album" asp-action="Index">Albums</a>
+                 @if(User.Identity.IsAuthenticated == false)
+                {
+                    <div>
+                        <a class="mr-4" asp-area="" asp-controller="Account" asp-action="Login" id="loginBtn">Login</a>
+                        <a asp-area="" asp-controller="Account" asp-action="Register" id="loginBtn">Register</a>
+                    </div>
+                }
+                else
+                {
+                    <a 
+                        style="color:brown !important"
+                        class="mr-4"
+                        asp-area="" 
+                        asp-controller="User" 
+                        asp-action="index"
+                        asp-route-id = "@User.Claims.FirstOrDefault(c => c.Type == "Id").Value"
+                        id="userProfile">
+                        Welcome  @User.Claims.FirstOrDefault(c => c.Type == "Name").Value
+                    </a>
+                    <a asp-area="" asp-controller="Account" asp-action="Signout" id="logoutBtn">Logout</a>
+                        
+                    @*@if(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value == "admin")
+                    {
+                        <div>
+                            <a class="ml-4" asp-area="" asp-controller="Account" asp-action="RegisterAdmin" id="registerAdminBtn">Add Admin</a>
+                        </div>
+                    }*@
+                }
             </div>
         </div>
         </div>
