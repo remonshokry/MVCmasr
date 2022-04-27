@@ -37,12 +37,14 @@ namespace MVCmasr.Controllers
 		{
             var userId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
             List<OrderItemsSession> orders = context.OrderItemsSessions.Where(i => i.UserId == userId).ToList();
-            var quantities = from album in orders.GroupBy(a => a.AlbumId)
+
+            var q = from album in orders.GroupBy(a => a.AlbumId)
                              select new
                              {
-                                 count = album.Count(),
+                                 count = album.Sum(s => s.Quantity),
                                  album.First().AlbumId
                              };
+            var quantities = q.Select(s => s.count).ToList();
 
             //var prices = orders.GroupBy(a => a.AlbumId).Select(g => g.Key);
 
@@ -55,6 +57,12 @@ namespace MVCmasr.Controllers
             var quantitiesss = orders.GroupBy(a => a.AlbumId).Select(g => g.Key).ToList();
 
 
+            List<decimal> prices = new List<decimal>();
+            for (var i=0; i < quantities.Count; i++)
+			{
+                prices.Add(quantities[i] * albums[i].Price);
+			};
+
             HttpContext.Session.SetInt32("Quantity", albums.Count());
 
 
@@ -63,6 +71,7 @@ namespace MVCmasr.Controllers
 
             ViewBag.Albums = albums;
             ViewBag.Quantities = quantities;
+            ViewBag.Prices = prices;
 
             ViewBag.TotalPrice = orders.Sum(s => s.Price);
 
@@ -75,16 +84,9 @@ namespace MVCmasr.Controllers
         public ActionResult AddToCart(int id)
         {
             //return RedirectToAction("Cart", "Order");
-            OrderItemsSession order = new OrderItemsSession();
-            order.AlbumId = id;
-            order.UserId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
 
-            order.Quantity = 1;
+            ChangeQuantity(id);
 
-            Album album = unitofwork.AlbumRepository.GetById(id);
-            order.Price = album.Price * order.Quantity;
-            context.OrderItemsSessions.Add(order);
-            context.SaveChanges();
             notyfService.Success("Album Added to Cart Successfully");
             //return RedirectToAction("closePreview", "Order");
             //return RedirectToAction("Details", "Album", new { id = id });
@@ -156,23 +158,46 @@ namespace MVCmasr.Controllers
         }
 
 
-        public IActionResult ChangeQuantity(int quantity, int albumId)
-		{
-            // add this code to proceed to checkout
+        [HttpGet("cart")]
+        //[Route("{id:int}")]
+        public IActionResult ChangeQuantity(int albumId, int quantity = 1 , int oldQuantity = 0)
+        {
+            OrderItemsSession order = new OrderItemsSession();
+            order.AlbumId = albumId;
+            order.UserId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
 
-            //Album album = unitofwork.AlbumRepository.GetById(albumId);
-            //OrderItem item = new OrderItem();
-            //item.Quantity = quantity;
-            //item.AlbumId = albumId;
-            //item.Price = album.Price * quantity;
-            //item.OrderId = 0;
+            //order.Quantity = quantity;
+            order.Quantity = quantity - oldQuantity;
 
-            //context.OrderItems.Add(item);
-            //context.SaveChanges();
+            Album album = unitofwork.AlbumRepository.GetById(albumId);
+            order.Price = album.Price * order.Quantity;
+            context.OrderItemsSessions.Add(order);
+            context.SaveChanges();
 
-            ViewBag.Quantity = quantity;
-            return Content(quantity.ToString());
-            //return RedirectToAction("Cart", "Order");
-		}
+            return Ok();
+        }
+
+
+
+
+        //      public IActionResult ChangeQuantity(int quantity, int albumId)
+        //{
+        // add this code to proceed to checkout
+
+        //Album album = unitofwork.AlbumRepository.GetById(albumId);
+        //OrderItem item = new OrderItem();
+        //item.Quantity = quantity;
+        //item.AlbumId = albumId;
+        //item.Price = album.Price * quantity;
+        //item.OrderId = 0;
+
+        //context.OrderItems.Add(item);
+        //context.SaveChanges();
+
+        //          ViewBag.Quantity = quantity;
+        //          return Content(quantity.ToString());
+        //          //return RedirectToAction("Cart", "Order");
+        //}
+
     }
 }

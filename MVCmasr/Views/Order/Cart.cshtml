@@ -74,11 +74,12 @@
                                         <td class="quantity__item">
                                             <div class="quantity">
                                                 <div class="pro-qty" id="pro-qty">
-                                                    <input type="number" min="0" class="form-control" style="border: 1px solid black;" value="1" id="@ViewBag.Albums[i].Id" onchange="updateQuantity(event)">
+                                                    <input type="hidden" value="@ViewBag.Quantities[i]" id="@ViewBag.Albums[i].Id" name="inp">
+                                                    <input type="number" min="0" class="form-control" style="border: 1px solid black;" value="@ViewBag.Quantities[i]" id="@ViewBag.Albums[i].Id" name="inp" onchange="updateQuantity(event)">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price" id="@ViewBag.Albums[i].Id+pri">$ @ViewBag.Albums[i].Price</td>
+                                        <td class="cart__price" id="@ViewBag.Albums[i].Id+pri">$ @ViewBag.Prices[i]</td>
                                         <td class="cart__close"><span class="icon_close">X</span></td>
                                     </tr>
                                }
@@ -136,22 +137,27 @@
 
         <script>
             window.onload = () => {
+               var oldQuantities = [];
                var qtyElements = document.getElementsByClassName("pro-qty");
                for(var i=0; i<qtyElements.length; i++){
                    qtyElements[i].firstElementChild.setAttribute("style", "display: none");
                    qtyElements[i].lastElementChild.setAttribute("style", "display: none");
+                   oldQuantities.push(qtyElements[i].querySelector('input[name="inp"]').value);
                }
             }
 
             function updateQuantity(){
+                var oldQuantity = event.target.previousElementSibling.value;
+                console.log(oldQuantity);
                 var quantity = event.target.value;
                 var albumId = event.target.id;
                 var price = event.target.id;
                 $.ajax({
 					url: "@Url.Action("ChangeQuantity", "Order")",
                     data: {
+                            "albumId": albumId,
                             "quantity": quantity,
-                            "albumId": albumId
+                            "oldQuantity": oldQuantity
                             }
 				}).done(function (result) {
                     //console.log(result);
