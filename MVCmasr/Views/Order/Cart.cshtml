@@ -80,7 +80,7 @@
                                             </div>
                                         </td>
                                         <td class="cart__price" id="@ViewBag.Albums[i].Id+pri">$ @ViewBag.Prices[i]</td>
-                                        <td class="cart__close"><span class="icon_close">X</span></td>
+                                        <td class="cart__close"><span class="icon_close" style="cursor: pointer;" id="@ViewBag.Albums[i].Id" onclick="removeItem(event)">X</span></td>
                                     </tr>
                                }
                             </tbody>
@@ -97,7 +97,8 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a asp-controller="Order" asp-action="Cart"><i class="fa fa-spinner"></i> Update cart</a>
+                                @*<a asp-controller="Order" asp-action="Cart"><i class="fa fa-spinner"></i> Update cart</a>*@
+                                <div class="continue__btn update__btn" style="cursor: pointer;" onclick="updateCart()"><a><i class="fa fa-spinner"></i> Update cart</a></div>
                             </div>
                         </div>
                     </div>
@@ -116,7 +117,7 @@
                             <li>Subtotal <span>$ @ViewBag.TotalPrice</span></li>
                             <li>Total <span>$ @ViewBag.TotalPrice</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a asp-controller="Order" asp-action="Checkout" class="primary-btn">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -146,28 +147,15 @@
                }
             }
 
+            var oldQuantity = 0, quantity = 1, albumId = 1, price = 0;
+
             function updateQuantity(){
-                var oldQuantity = event.target.previousElementSibling.value;
-                console.log(oldQuantity);
-                var quantity = event.target.value;
-                var albumId = event.target.id;
-                var price = event.target.id;
-                $.ajax({
-					url: "@Url.Action("ChangeQuantity", "Order")",
-                    data: {
-                            "albumId": albumId,
-                            "quantity": quantity,
-                            "oldQuantity": oldQuantity
-                            }
-				}).done(function (result) {
-                    //console.log(result);
-					//${"#dataFromAjax h2"}.text(result)
-                    console.log(price);
-					console.log($("#" + price + "+pri"))
-                    //$('#tableRow').children().last().attr(`#${event.target.id}`).text(result);
-				});
-
-
+                oldQuantity = +(event.target.previousElementSibling.value);
+                    console.log(oldQuantity);
+                quantity = event.target.value;
+                albumId = event.target.id;
+                price = event.target.id;
+            }
 
         //        //var quantity = document.getElementsByClassName("albumQuantity").value;
         //        var quantities = document.getElementsByClassName("albumQuantity");
@@ -182,6 +170,29 @@
         //        }
 
 
-            }
+
+            function updateCart(){
+                    $.ajax({
+					url: "@Url.Action("ChangeQuantity", "Order")",
+                    data: {
+                            "albumId": albumId,
+                            "quantity": quantity,
+                            "oldQuantity": oldQuantity
+                            }
+				}).done(function (result) {
+                        window.location.reload();
+                    });
+                }
+                
+                function removeItem(){
+                    $.ajax({
+					url: "@Url.Action("RemoveItem", "Order")",
+                    data: {
+                            "albumId": event.target.id
+                            }
+				}).done(function (result) {
+                        window.location.reload();
+                    });
+                }
         </script>
     }

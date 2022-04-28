@@ -1845,6 +1845,10 @@ ol {
   color: #ffffff;
   background: #111111;
   border-color: #111111;
+  cursor: pointer !important;
+}
+.continue__btn.update__btn a:hover{
+    color: red;
 }
 .continue__btn.update__btn a i {
   margin-right: 5px;
@@ -2061,7 +2065,7 @@ ol {
 
 .checkout__order {
   background: #fdf3ea;
-  padding: 30px;
+  padding: 10px;
 }
 .checkout__order .order__title {
   color: #111111;

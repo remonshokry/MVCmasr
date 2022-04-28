@@ -26,11 +26,6 @@ namespace MVCmasr.Controllers
 			context = _context;
 		}
 
-        public ActionResult Index()
-        {
-            return View("AddToCart");
-            //return Content("cart");
-        }
 
         [HttpGet]
         public IActionResult Cart()
@@ -38,42 +33,7 @@ namespace MVCmasr.Controllers
             var userId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
             List<OrderItemsSession> orders = context.OrderItemsSessions.Where(i => i.UserId == userId).ToList();
 
-            var q = from album in orders.GroupBy(a => a.AlbumId)
-                             select new
-                             {
-                                 count = album.Sum(s => s.Quantity),
-                                 album.First().AlbumId
-                             };
-            var quantities = q.Select(s => s.count).ToList();
-
-            //var prices = orders.GroupBy(a => a.AlbumId).Select(g => g.Key);
-
-            var selectedAlbumIds = orders.Select(i => i.AlbumId).ToList();
-            var albumsIds = orders.Select(a => a.AlbumId).Distinct().ToList();
-
-
-
-            var albums = unitofwork.AlbumRepository.GetAllWithAllData().Where(a => selectedAlbumIds.Contains(a.Id)).ToList();
-            var quantitiesss = orders.GroupBy(a => a.AlbumId).Select(g => g.Key).ToList();
-
-
-            List<decimal> prices = new List<decimal>();
-            for (var i=0; i < quantities.Count; i++)
-			{
-                prices.Add(quantities[i] * albums[i].Price);
-			};
-
-            HttpContext.Session.SetInt32("Quantity", albums.Count());
-
-
-            //orders = orders.Select(o => o.Album = unitofwork.AlbumRepository.GetById(o.AlbumId)).ToList();
-
-
-            ViewBag.Albums = albums;
-            ViewBag.Quantities = quantities;
-            ViewBag.Prices = prices;
-
-            ViewBag.TotalPrice = orders.Sum(s => s.Price);
+            UpdateQuantities();
 
             return View(orders);
 		}
@@ -94,11 +54,86 @@ namespace MVCmasr.Controllers
         }
 
 
+        [HttpGet("cart")]
+        //[Route("{id:int}")]
+        public IActionResult ChangeQuantity(int albumId, int quantity = 1 , int oldQuantity = 0)
+        {
+            List<OrderItemsSession> albumOrders = context.OrderItemsSessions.Where(i => i.AlbumId == albumId).ToList();
+            context.OrderItemsSessions.RemoveRange(albumOrders);
+
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+
+            OrderItemsSession order = new OrderItemsSession();
+            order.AlbumId = albumId;
+            order.UserId = userId;
+
+            order.Quantity = quantity;
+            //order.Quantity = quantity - oldQuantity;
+
+            Album album = unitofwork.AlbumRepository.GetById(albumId);
+            order.Price = album.Price * order.Quantity;
+
+            context.OrderItemsSessions.Add(order);
+            context.SaveChanges();
+
+            //UpdateQuantities(quantity);
+            //UpdateQuantities();
+
+            SetData();
+
+            //return RedirectToAction("UpdateQuantities", "Order", new {_quantity= quantity});
+            //return RedirectToAction("Cart", "Order");
+            //return View("Cart", orders);
+            return Ok();
+        }
+
+
+		public IActionResult UpdateQuantities() // int _quantity
+        {
+            SetData();
+
+			//var albumsIds = orders.Select(a => a.AlbumId).Distinct().ToList();
+
+			//HttpContext.Session.SetInt32("Quantity", albums.Count());
+
+            //return Content(_quantity.ToString());
+			return Ok();
+		}
+
+
+        // GET: OrderController/RemoveItem/5
+        public ActionResult RemoveItem(int albumId)
+        {
+            List<OrderItemsSession> albumOrders = context.OrderItemsSessions.Where(i => i.AlbumId == albumId).ToList();
+            context.OrderItemsSessions.RemoveRange(albumOrders);
+            context.SaveChanges();
+
+            SetData();
+
+            return Ok();
+        }
+
+
+        [HttpGet]
+        public IActionResult Checkout()
+		{
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+            List<OrderItemsSession> orders = context.OrderItemsSessions.Where(i => i.UserId == userId).ToList();
+
+            UpdateQuantities();
+
+            var user = context.Users.FirstOrDefault(u => u.Id == userId);
+            ViewBag.User = user;
+
+            return View(orders);
+        }
+
+
         [HttpGet]
         public IActionResult closePreview()
-		{
+        {
             return View();
-		}
+        }
 
         // POST: OrderController/UpdateCart
         [HttpPost]
@@ -136,11 +171,6 @@ namespace MVCmasr.Controllers
             }
         }
 
-        // GET: OrderController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: OrderController/Delete/5
         [HttpPost]
@@ -158,26 +188,37 @@ namespace MVCmasr.Controllers
         }
 
 
-        [HttpGet("cart")]
-        //[Route("{id:int}")]
-        public IActionResult ChangeQuantity(int albumId, int quantity = 1 , int oldQuantity = 0)
+
+        private void SetData()
         {
-            OrderItemsSession order = new OrderItemsSession();
-            order.AlbumId = albumId;
-            order.UserId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
 
-            //order.Quantity = quantity;
-            order.Quantity = quantity - oldQuantity;
+            List<OrderItemsSession> orders = context.OrderItemsSessions.Where(i => i.UserId == userId).ToList();
 
-            Album album = unitofwork.AlbumRepository.GetById(albumId);
-            order.Price = album.Price * order.Quantity;
-            context.OrderItemsSessions.Add(order);
-            context.SaveChanges();
+            var q = from albumm in orders.OrderBy(a => a.AlbumId).GroupBy(a => a.AlbumId)
+                    select new
+                    {
+                        count = albumm.Sum(s => s.Quantity),
+                        albumm.First().AlbumId
+                    };
+            var quantities = q.Select(s => s.count).ToList();
 
-            return Ok();
+            var selectedAlbumIds = orders.Select(i => i.AlbumId).ToList();
+
+            var albums = unitofwork.AlbumRepository.GetAllWithAllData().Where(a => selectedAlbumIds.Contains(a.Id)).ToList();
+
+            List<decimal> prices = new List<decimal>();
+            for (var i = 0; i < quantities.Count; i++)
+            {
+                prices.Add(quantities[i] * albums[i].Price);
+            };
+
+            ViewBag.Albums = albums;
+            ViewBag.Quantities = quantities;
+            ViewBag.Prices = prices;
+
+            ViewBag.TotalPrice = orders.Sum(s => s.Price);
         }
-
-
 
 
         //      public IActionResult ChangeQuantity(int quantity, int albumId)
